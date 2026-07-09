@@ -4,12 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>🚀 Sell Gmail - Fast & Secure</title>
-    <!-- Firebase App and Database SDKs -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-    <!-- SweetAlert2 for beautiful success/error popups -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Google Fonts & FontAwesome Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -21,13 +18,11 @@
             align-items: center; padding: 20px; position: relative;
         }
 
-        /* Top Left User Profile Badge */
         .user-profile-badge {
             position: absolute; top: 20px; left: 20px;
             background: rgba(30, 41, 59, 0.6); backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.1); padding: 10px 18px;
             border-radius: 30px; display: flex; align-items: center; gap: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
         .user-profile-badge i { color: #38bdf8; font-size: 18px; }
         .user-info-text { display: flex; flex-direction: column; text-align: left; }
@@ -42,11 +37,10 @@
             margin-top: 40px; transition: 0.3s;
         }
 
-        /* Notice Board (Admin Configurable) */
         .admin-notice {
             background: linear-gradient(135deg, #1e1b4b 0%, #311042 100%);
             border: 2px dashed #818cf8; border-radius: 16px; padding: 15px;
-            margin-bottom: 30px; box-shadow: 0 0 15px rgba(129, 140, 248, 0.2);
+            margin-bottom: 30px;
         }
         .notice-item { font-size: 16px; font-weight: 600; color: #e2e8f0; margin: 5px 0; display: flex; justify-content: center; align-items: center; gap: 8px; }
         .notice-item span { color: #38bdf8; font-size: 20px; font-weight: 700; }
@@ -54,7 +48,6 @@
         .form-header h2 { font-size: 26px; font-weight: 700; background: linear-gradient(to right, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
         .form-header p { color: #94a3b8; font-size: 14px; margin-bottom: 30px; }
 
-        /* Dynamic Labels & Inputs */
         label { display: block; text-align: left; margin-bottom: 8px; font-size: 14px; color: #94a3b8; font-weight: 600; }
         .input-wrapper { width: 100%; margin-bottom: 20px; }
         input {
@@ -64,30 +57,26 @@
         }
         input:focus { border-color: #38bdf8; box-shadow: 0 0 10px rgba(56, 189, 248, 0.2); }
 
-        /* Submit Button */
         .btn-submit {
             width: 100%; padding: 15px; background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
             border: none; border-radius: 12px; color: #fff; font-size: 16px; font-weight: 600;
-            cursor: pointer; transition: 0.3s ease; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
-            display: flex; justify-content: center; align-items: center; gap: 10px;
+            cursor: pointer; transition: 0.3s ease; display: flex; justify-content: center; align-items: center; gap: 10px;
         }
         .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5); }
 
-        /* Service Paused State Layout */
         #paused-notice {
             display: none; background: rgba(239, 68, 68, 0.1); border: 2px dashed #f87171;
             border-radius: 16px; padding: 25px; margin-top: 10px; text-align: center;
         }
         #paused-notice i { font-size: 45px; color: #f87171; margin-bottom: 15px; }
 
-        /* Success Animation Screen */
         #success-animation {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(15, 23, 42, 0.95); z-index: 9999; justify-content: center; align-items: center; flex-direction: column;
         }
         .success-card {
             background: #1e293b; border: 2px solid #4ade80; padding: 40px; border-radius: 20px;
-            text-align: center; box-shadow: 0 0 30px rgba(74, 222, 128, 0.3); animation: popup 0.4s ease-out;
+            text-align: center; animation: popup 0.4s ease-out;
         }
         @keyframes popup { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
@@ -99,7 +88,6 @@
 </head>
 <body>
 
-    <!-- Dynamic User Profile Badge -->
     <div class="user-profile-badge">
         <i class="fa-solid fa-user-astronaut"></i>
         <div class="user-info-text">
@@ -109,83 +97,77 @@
     </div>
 
     <div class="container">
-        <!-- Admin Notice Board -->
         <div class="admin-notice">
             <div class="notice-item"><i class="fa-solid fa-clock"></i> Report Time: <span id="report-time">Loading...</span></div>
             <div class="notice-item"><i class="fa-solid fa-tag"></i> Gmail Price: <span id="gmail-price">Loading...</span></div>
         </div>
 
-        <!-- Dynamic Form Section -->
         <div id="form-wrapper">
             <div class="form-header">
                 <h2>🚀 Sell Your Gmail</h2>
-                <p>অ্যাডমিন কনফিগারেশন অনুযায়ী সঠিক তথ্য সাবমিট করুন</p>
+                <p>সঠিক তথ্য সাবমিট করে অপেক্ষা করুন</p>
             </div>
 
             <form id="gmailDynamicForm">
-                <!-- Dynamic Input Box Elements Go Here -->
                 <div id="dynamic-inputs-area"></div>
-                
-                <button type="submit" class="btn-submit">
-                    Submit Gmail Details <i class="fa-solid fa-paper-plane"></i>
-                </button>
+                <button type="submit" class="btn-submit">Submit Gmail Details <i class="fa-solid fa-paper-plane"></i></button>
             </form>
         </div>
 
-        <!-- Service Paused Screen Layout -->
         <div id="paused-notice">
             <i class="fa-solid fa-circle-pause"></i>
             <h3 style="color:#f87171; margin-bottom:8px; font-size:18px;">Submissions Temporarily Paused</h3>
-            <p style="color:#94a3b8; font-size:13px; line-height:1.6;">অ্যাডমিন প্যানেল থেকে জিমেইল ক্রয় সার্ভিসটি সাময়িকভাবে বন্ধ রাখা হয়েছে। দয়া করে কিছু সময় পর আবার বটের মাধ্যমে চেক করুন।</p>
+            <p style="color:#94a3b8; font-size:13px; line-height:1.6;">অ্যাডমিন প্যানেল থেকে জিমেইল ক্রয় সার্ভিসটি সাময়িকভাবে বন্ধ রাখা হয়েছে।</p>
         </div>
     </div>
 
-    <!-- Celebration/Success Animation Layout -->
     <div id="success-animation">
         <div class="success-card">
             <i class="fa-solid fa-circle-check" style="font-size: 60px; color: #4ade80; margin-bottom: 20px;"></i>
             <h2 style="color: #4ade80; margin-bottom: 10px;">Successfully Submitted!</h2>
             <p style="color: #94a3b8; font-size: 14px; max-width: 320px; margin-bottom: 20px; line-height: 1.6;">
-                আপনার ডাটা রিয়েল-টাইমে ডেটাবেজে জমা হয়েছে। অ্যাডমিন প্যানেল এবং বটের মাধ্যমে আপনার টাস্ক হিস্ট্রি ও পেমেন্ট আপডেট ট্র্যাকিং করা হবে।
+                আপনার ডাটা রিয়েল-টাইমে ডেটাবেজে জমা হয়েছে এবং বটে নোটিফিকেশন পাঠানো হয়েছে।
             </p>
             <button onclick="closeSuccess()" style="padding: 12px 30px; background: #4ade80; border: none; border-radius: 8px; color: #0f172a; font-weight: 600; cursor: pointer; width:100%;">OK</button>
         </div>
     </div>
 
     <script>
-        // ১. Firebase Initialization
-        const firebaseConfig = {
-            databaseURL: "https://ranger-shop-default-rtdb.firebaseio.com/"
-        };
+        const firebaseConfig = { databaseURL: "https://ranger-shop-default-rtdb.firebaseio.com/" };
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // URL কুয়েরি প্যারামিটার থেকে টেলিগ্রাম আইডি গেট করা
         const urlParams = new URLSearchParams(window.location.search);
         const telegramId = urlParams.get('id');
+        
+        // 🤖 TELEGRAM BOT NOTIFICATION CONFIG
+        const BOT_TOKEN = "7336306511:AAH8m6BqG9wV6rV-360U0Y5_3r0oZ4N-7O8"; 
+        let adminChatId = "8047945968"; // ডিফল্ট (ডাটাবেজ থেকেও আপডেট হবে)
 
-        // ২. ইউজার প্রোফাইল ডাটা লাইভ সিঙ্ক করা
+        function sendTelegramTelegramMsg(chatId, textMessage) {
+            if(!BOT_TOKEN || !chatId) return;
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: chatId, text: textMessage, parse_mode: "HTML" })
+            }).catch(e => console.log(e));
+        }
+
         if (telegramId) {
             document.getElementById('top-uid').innerText = "UID: " + telegramId;
             database.ref('users/' + telegramId + '/username').on('value', (snapshot) => {
-                const username = snapshot.val();
-                document.getElementById('top-username').innerText = username ? username : "Telegram User";
+                document.getElementById('top-username').innerText = snapshot.val() || "Telegram User";
             });
-        } else {
-            document.getElementById('top-username').innerText = "Guest User";
-            document.getElementById('top-uid').innerText = "UID: Not Connected";
         }
 
-        // ৩. মেইন গ্লোবাল প্যারামিটার ও সার্ভিস অন/অফ স্ট্যাটাস চেক
         database.ref('admin_settings').on('value', (snapshot) => {
             const settings = snapshot.val();
             if(settings) {
                 document.getElementById('report-time').innerText = settings.report_time || "10 Minutes";
                 document.getElementById('gmail-price').innerText = settings.gmail_price || "৳0.00";
+                adminChatId = settings.admin_chat_id || adminChatId;
                 
-                // সার্ভিস সুইচ অন নাকি অফ তা ডাইনামিকালি চেক করা
-                const isServiceActive = settings.gmail_submission_status;
-                if (isServiceActive === true) {
+                if (settings.gmail_submission_status === true) {
                     document.getElementById('form-wrapper').style.display = 'block';
                     document.getElementById('paused-notice').style.display = 'none';
                 } else {
@@ -195,92 +177,58 @@
             }
         });
 
-        // ৪. অ্যাডমিন প্যানেল কনফিগ থেকে জিমেইল ইনপুট বক্স ডাইনামিকালি জেনারেট করা
         database.ref('admin_settings/gmail_custom_fields').on('value', (snapshot) => {
             const fields = snapshot.val();
             const inputsArea = document.getElementById('dynamic-inputs-area');
-            inputsArea.innerHTML = ''; // রিফ্রেশ এরিয়া
-
+            inputsArea.innerHTML = '';
             if (fields && Array.isArray(fields)) {
                 fields.forEach((field) => {
-                    const wrapper = document.createElement('div');
-                    wrapper.className = 'input-wrapper';
-
-                    const label = document.createElement('label');
-                    label.innerText = field.label;
-
-                    const input = document.createElement('input');
-                    input.type = "text";
-                    input.className = "dynamic-user-gmail-input";
-                    input.dataset.label = field.label; // লেবেল ট্র্যাকিং
-                    input.placeholder = "Enter " + field.label + "...";
-                    input.required = true;
-
-                    wrapper.appendChild(label);
-                    wrapper.appendChild(input);
-                    inputsArea.appendChild(wrapper);
+                    const wrapper = document.createElement('div'); wrapper.className = 'input-wrapper';
+                    const label = document.createElement('label'); label.innerText = field.label;
+                    const input = document.createElement('input'); input.type = "text"; input.className = "dynamic-user-gmail-input"; input.dataset.label = field.label; input.placeholder = "Enter " + field.label + "..."; input.required = true;
+                    wrapper.appendChild(label); wrapper.appendChild(input); inputsArea.appendChild(wrapper);
                 });
-            } else {
-                // কোনো কনফিগ না থাকলে ব্যাকওয়ার্ড সেফটি ব্যাকআপ (ডিফল্ট ২ বক্স)
-                inputsArea.innerHTML = `
-                    <div class="input-wrapper"><label>Gmail Address</label><input type="email" class="dynamic-user-gmail-input" data-label="Gmail Address" placeholder="Enter Gmail Address..." required></div>
-                    <div class="input-wrapper"><label>Password</label><input type="text" class="dynamic-user-gmail-input" data-label="Password" placeholder="Enter Password..." required></div>
-                `;
             }
         });
 
-        // ৫. ডাইনামিক ফর্ম সাবমিশন প্রসেস
         document.getElementById('gmailDynamicForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            if (!telegramId) { Swal.fire({ icon: 'error', title: 'Error', text: 'টেলিগ্রাম আইডি পাওয়া যায়নি।' }); return; }
 
-            if (!telegramId) {
-                Swal.fire({ icon: 'error', title: 'Authentication Error', text: 'দয়া করে টেলিগ্রাম বটের মেইন মেনু বাটন ব্যবহার করে লিংকে প্রবেশ করুন।' });
-                return;
-            }
-
-            // ডাইনামিক ফিল্ডের সব ভ্যালু অবজেক্ট আকারে কালেক্ট করা
             const accountDetails = {};
             const userInputs = document.querySelectorAll('.dynamic-user-gmail-input');
-            userInputs.forEach(input => {
+            let firstInputVal = "Gmail Work";
+            
+            userInputs.forEach((input, idx) => {
                 accountDetails[input.dataset.label] = input.value.trim();
+                if(idx === 0) firstInputVal = input.value.trim();
             });
 
             const timestamp = new Date().toLocaleString();
             const submissionId = 'SUB' + Math.floor(100000 + Math.random() * 900000);
-
-            // ডাটাবেজ পেলোড (অ্যাডমিন প্যানেল রিড করার উপযোগী)
-            const payload = {
-                id: submissionId,
-                submitted_by: telegramId,
-                account_details: accountDetails, // ডাইনামিক বক্সের ডাটা এখানে স্টোর হবে
-                status: "Pending",
-                reject_reason: "", // শুরুতে রিজেক্ট কারণ খালি থাকবে
-                time: timestamp
-            };
-
-            // ক) অ্যাডমিন প্যানেল নোডে এবং খ) ইউজারের নোডে একযোগে ডাটা রাইট (PUT) করা
-            const userRef = database.ref('users/' + telegramId + '/submitted_gmails/' + submissionId);
-            const adminRef = database.ref('admin_pending_gmails/' + submissionId);
+            const payload = { id: submissionId, submitted_by: telegramId, account_details: accountDetails, status: "Pending", reject_reason: "", time: timestamp };
 
             Promise.all([
-                userRef.set(payload),
-                adminRef.set(payload)
+                database.ref('users/' + telegramId + '/submitted_gmails/' + submissionId).set(payload),
+                database.ref('admin_pending_gmails/' + submissionId).set(payload)
             ]).then(() => {
-                // ইউজারের লাইভ স্ট্যাটস নোড আপডেট (Transaction)
                 database.ref('users/' + telegramId + '/stats/total_submitted').transaction(c => (c || 0) + 1);
                 database.ref('users/' + telegramId + '/stats/pending').transaction(c => (c || 0) + 1);
 
-                // পপআপ স্ক্রিন শো ও ফর্ম রিসেট
+                // 🔔 ১. ইউজারকে পেন্ডিং নোটিফিকেশন পাঠানো
+                const userMsg = `⏳ <b>Gmail Submission Success!</b>\n\n<b>Task ID:</b> ${submissionId}\n<b>Account:</b> ${firstInputVal}\n<b>Status:</b> Pending 🟡\n\nঅপেক্ষা করুন, অ্যাডমিন আপনার কাজটি রিভিউ করে ব্যালেন্স পেমেন্ট করে দেবে।`;
+                sendTelegramTelegramMsg(telegramId, userMsg);
+
+                // 🔔 ২. অ্যাডমিনকে নতুন টাস্ক অ্যালার্ট পাঠানো
+                const adminMsg = `📥 <b>New Gmail Task Submitted!</b>\n\n<b>Task ID:</b> ${submissionId}\n<b>User UID:</b> ${telegramId}\n<b>Primary Info:</b> ${firstInputVal}\n\nরিভিউ করতে অ্যাডমিন প্যানেল চেক করুন।`;
+                sendTelegramTelegramMsg(adminChatId, adminMsg);
+
                 document.getElementById('success-animation').style.display = 'flex';
                 document.getElementById('gmailDynamicForm').reset();
-            }).catch(err => {
-                Swal.fire({ icon: 'error', title: 'Submission Failed', text: 'ডাটাবেজ কানেকশন ত্রুটি! দয়া করে পেজটি রিফ্রেশ দিয়ে আবার চেষ্টা করুন।' });
             });
         });
 
-        function closeSuccess() {
-            document.getElementById('success-animation').style.display = 'none';
-        }
+        function closeSuccess() { document.getElementById('success-animation').style.display = 'none'; }
     </script>
 </body>
 </html>
