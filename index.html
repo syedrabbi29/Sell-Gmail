@@ -3,132 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🚀 Sell Gmail - Fast & Secure</title>
+    <title>💵 Advanced Withdraw Earnings</title>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: #ffffff; min-height: 100vh; display: flex; justify-content: center;
-            align-items: center; padding: 20px; position: relative;
-        }
-
-        .user-profile-badge {
-            position: absolute; top: 20px; left: 20px;
-            background: rgba(30, 41, 59, 0.6); backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.1); padding: 10px 18px;
-            border-radius: 30px; display: flex; align-items: center; gap: 10px;
-        }
-        .user-profile-badge i { color: #38bdf8; font-size: 18px; }
-        .user-info-text { display: flex; flex-direction: column; text-align: left; }
-        .user-info-text .u-name { font-size: 13px; font-weight: 600; color: #fff; max-width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .user-info-text .u-id { font-size: 11px; color: #94a3b8; }
-
-        .container {
-            background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px;
-            padding: 40px 30px; width: 100%; max-width: 480px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); text-align: center;
-            margin-top: 40px; transition: 0.3s;
-        }
-
-        .admin-notice {
-            background: linear-gradient(135deg, #1e1b4b 0%, #311042 100%);
-            border: 2px dashed #818cf8; border-radius: 16px; padding: 15px;
-            margin-bottom: 30px;
-        }
-        .notice-item { font-size: 16px; font-weight: 600; color: #e2e8f0; margin: 5px 0; display: flex; justify-content: center; align-items: center; gap: 8px; }
-        .notice-item span { color: #38bdf8; font-size: 20px; font-weight: 700; }
-
-        .form-header h2 { font-size: 26px; font-weight: 700; background: linear-gradient(to right, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
-        .form-header p { color: #94a3b8; font-size: 14px; margin-bottom: 30px; }
-
-        label { display: block; text-align: left; margin-bottom: 8px; font-size: 14px; color: #94a3b8; font-weight: 600; }
-        .input-wrapper { width: 100%; margin-bottom: 20px; }
-        input {
-            width: 100%; padding: 15px; background: rgba(15, 23, 42, 0.6);
-            border: 2px solid #334155; border-radius: 12px; color: #fff;
-            font-size: 15px; outline: none; transition: 0.3s;
-        }
-        input:focus { border-color: #38bdf8; box-shadow: 0 0 10px rgba(56, 189, 248, 0.2); }
-
-        .btn-submit {
-            width: 100%; padding: 15px; background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
-            border: none; border-radius: 12px; color: #fff; font-size: 16px; font-weight: 600;
-            cursor: pointer; transition: 0.3s ease; display: flex; justify-content: center; align-items: center; gap: 10px;
-        }
-        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5); }
-
-        #paused-notice {
-            display: none; background: rgba(239, 68, 68, 0.1); border: 2px dashed #f87171;
-            border-radius: 16px; padding: 25px; margin-top: 10px; text-align: center;
-        }
-        #paused-notice i { font-size: 45px; color: #f87171; margin-bottom: 15px; }
-
-        #success-animation {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.95); z-index: 9999; justify-content: center; align-items: center; flex-direction: column;
-        }
-        .success-card {
-            background: #1e293b; border: 2px solid #4ade80; padding: 40px; border-radius: 20px;
-            text-align: center; animation: popup 0.4s ease-out;
-        }
-        @keyframes popup { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-
-        @media (max-width: 480px) {
-            .user-profile-badge { position: fixed; top: 10px; left: 10px; right: 10px; width: calc(100% - 20px); justify-content: center; z-index: 100; }
-            .container { margin-top: 80px; }
-        }
+        :root { --bg-color: #0f172a; --card-bg: #1e293b; --accent-color: #38bdf8; --text-color: #f8fafc; --text-muted: #94a3b8; --input-bg: #0f172a; --border-color: #334155; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
+        .container { width: 100%; max-width: 480px; background: var(--card-bg); border-radius: 16px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); box-sizing: border-box; margin-bottom: 20px; }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px; }
+        .header h2 { margin: 0; font-size: 20px; color: var(--accent-color); }
+        .uid { font-size: 12px; color: var(--text-muted); background: var(--input-bg); padding: 4px 8px; border-radius: 6px; }
+        .balance-card { background: linear-gradient(135deg, #0284c7, #0369a1); border-radius: 12px; padding: 15px; text-align: center; margin-bottom: 20px; }
+        .balance-card span { font-size: 14px; color: #e0f2fe; display: block; margin-bottom: 5px; }
+        .balance-card h1 { margin: 0; font-size: 32px; font-weight: 700; }
+        label { display: block; font-size: 14px; color: var(--text-muted); margin-bottom: 8px; margin-top: 15px; }
+        select, input { width: 100%; padding: 12px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-color); font-size: 15px; box-sizing: border-box; }
+        .btn-submit { width: 100%; padding: 14px; background: #10b981; border: none; border-radius: 8px; color: white; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 25px; }
+        .history-item { background: var(--input-bg); border: 1px solid var(--border-color); border-left: 4px solid #f59e0b; border-radius: 8px; padding: 12px; margin-bottom: 12px; }
+        .history-top { display: flex; justify-content: space-between; align-items: flex-start; }
+        .history-details .method { font-weight: 600; font-size: 15px; }
+        .history-details .time { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+        .history-amount { text-align: right; }
+        .history-amount .amount { font-weight: 700; font-size: 16px; }
+        .status { font-size: 10px; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; font-weight: 600; display: inline-block; margin-top: 4px; }
+        .status.pending { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+        .status.paid { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+        .status.rejected { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+        .history-user-inputs { font-size: 12px; color: var(--text-muted); background: rgba(255,255,255,0.03); padding: 6px; border-radius: 4px; margin-top: 8px; }
+        .reject-reason { color: #f87171; font-size: 12px; background: rgba(239, 68, 68, 0.1); padding: 6px; border-radius: 4px; margin-top: 8px; display: flex; align-items: center; gap: 6px; }
     </style>
 </head>
 <body>
 
-    <div class="user-profile-badge">
-        <i class="fa-solid fa-user-astronaut"></i>
-        <div class="user-info-text">
-            <span class="u-name" id="top-username">Loading...</span>
-            <span class="u-id" id="top-uid">UID: ------</span>
+    <div class="container">
+        <div class="header">
+            <h2>Withdraw</h2>
+            <div class="uid" id="user-uid">UID: Fetching...</div>
         </div>
+        <div class="balance-card">
+            <span>Your Available Balance</span>
+            <h1 id="user-balance">$0.00</h1>
+        </div>
+        <form id="withdrawForm">
+            <label for="method">Select Payout Gateway</label>
+            <select id="method" required>
+                <option value="" disabled selected>Loading active methods...</option>
+            </select>
+            <div id="dynamic-fields"></div>
+            <label for="amount">Withdrawal Amount ($)</label>
+            <input type="number" id="amount" step="0.01" min="0.01" placeholder="0.00" required>
+            <button type="submit" class="btn-submit">Submit Request</button>
+        </form>
     </div>
 
     <div class="container">
-        <div class="admin-notice">
-            <div class="notice-item"><i class="fa-solid fa-clock"></i> Report Time: <span id="report-time">Loading...</span></div>
-            <div class="notice-item"><i class="fa-solid fa-tag"></i> Gmail Price: <span id="gmail-price">Loading...</span></div>
+        <div class="header" style="border: none; margin-bottom: 10px;">
+            <h2 style="font-size: 18px; color: var(--text-color);">History</h2>
         </div>
-
-        <div id="form-wrapper">
-            <div class="form-header">
-                <h2>🚀 Sell Your Gmail</h2>
-                <p>সঠিক তথ্য সাবমিট করে অপেক্ষা করুন</p>
-            </div>
-
-            <form id="gmailDynamicForm">
-                <div id="dynamic-inputs-area"></div>
-                <button type="submit" class="btn-submit">Submit Gmail Details <i class="fa-solid fa-paper-plane"></i></button>
-            </form>
-        </div>
-
-        <div id="paused-notice">
-            <i class="fa-solid fa-circle-pause"></i>
-            <h3 style="color:#f87171; margin-bottom:8px; font-size:18px;">Submissions Temporarily Paused</h3>
-            <p style="color:#94a3b8; font-size:13px; line-height:1.6;">অ্যাডমিন প্যানেল থেকে জিমেইল ক্রয় সার্ভিসটি সাময়িকভাবে বন্ধ রাখা হয়েছে।</p>
-        </div>
-    </div>
-
-    <div id="success-animation">
-        <div class="success-card">
-            <i class="fa-solid fa-circle-check" style="font-size: 60px; color: #4ade80; margin-bottom: 20px;"></i>
-            <h2 style="color: #4ade80; margin-bottom: 10px;">Successfully Submitted!</h2>
-            <p style="color: #94a3b8; font-size: 14px; max-width: 320px; margin-bottom: 20px; line-height: 1.6;">
-                আপনার ডাটা রিয়েল-টাইমে ডেটাবেজে জমা হয়েছে এবং বটে নোটিফিকেশন পাঠানো হয়েছে।
-            </p>
-            <button onclick="closeSuccess()" style="padding: 12px 30px; background: #4ade80; border: none; border-radius: 8px; color: #0f172a; font-weight: 600; cursor: pointer; width:100%;">OK</button>
+        <div id="history-container">
+            <p id="no-history" style="color: var(--text-muted); font-size: 13px; text-align: center; padding: 10px;">Loading history...</p>
         </div>
     </div>
 
@@ -139,10 +75,12 @@
 
         const urlParams = new URLSearchParams(window.location.search);
         const telegramId = urlParams.get('id');
-        
+        let currentBalance = 0.00;
+        let methodConfigs = {}; 
+
         // 🤖 TELEGRAM BOT NOTIFICATION CONFIG
-        const BOT_TOKEN = "8968747488:AAFo57k9oohFGLWlqy0NhQmHS5EoSZEtK48"; 
-        let adminChatId = "7955518877"; // ডিফল্ট (ডাটাবেজ থেকেও আপডেট হবে)
+        const BOT_TOKEN = ":8968747488:AAFo57k9oohFGLWlqy0NhQmHS5EoSZEtK48"; 
+        let adminChatId = "7955518877";
 
         function sendTelegramTelegramMsg(chatId, textMessage) {
             if(!BOT_TOKEN || !chatId) return;
@@ -153,82 +91,104 @@
             }).catch(e => console.log(e));
         }
 
-        if (telegramId) {
-            document.getElementById('top-uid').innerText = "UID: " + telegramId;
-            database.ref('users/' + telegramId + '/username').on('value', (snapshot) => {
-                document.getElementById('top-username').innerText = snapshot.val() || "Telegram User";
-            });
-        }
-
-        database.ref('admin_settings').on('value', (snapshot) => {
-            const settings = snapshot.val();
-            if(settings) {
-                document.getElementById('report-time').innerText = settings.report_time || "10 Minutes";
-                document.getElementById('gmail-price').innerText = settings.gmail_price || "৳0.00";
-                adminChatId = settings.admin_chat_id || adminChatId;
-                
-                if (settings.gmail_submission_status === true) {
-                    document.getElementById('form-wrapper').style.display = 'block';
-                    document.getElementById('paused-notice').style.display = 'none';
-                } else {
-                    document.getElementById('form-wrapper').style.display = 'none';
-                    document.getElementById('paused-notice').style.display = 'block';
-                }
-            }
-        });
-
-        database.ref('admin_settings/gmail_custom_fields').on('value', (snapshot) => {
-            const fields = snapshot.val();
-            const inputsArea = document.getElementById('dynamic-inputs-area');
-            inputsArea.innerHTML = '';
-            if (fields && Array.isArray(fields)) {
-                fields.forEach((field) => {
-                    const wrapper = document.createElement('div'); wrapper.className = 'input-wrapper';
-                    const label = document.createElement('label'); label.innerText = field.label;
-                    const input = document.createElement('input'); input.type = "text"; input.className = "dynamic-user-gmail-input"; input.dataset.label = field.label; input.placeholder = "Enter " + field.label + "..."; input.required = true;
-                    wrapper.appendChild(label); wrapper.appendChild(input); inputsArea.appendChild(wrapper);
+        database.ref('admin_settings/withdraw_methods').on('value', (snapshot) => {
+            const methods = snapshot.val();
+            const selectElement = document.getElementById('method');
+            selectElement.innerHTML = '<option value="" disabled selected>Choose Method...</option>';
+            if (methods) {
+                methodConfigs = methods;
+                Object.keys(methods).forEach(key => {
+                    const m = methods[key];
+                    if (m.status === true || m.status === "Active") {
+                        const opt = document.createElement('option');
+                        opt.value = key;
+                        opt.innerText = (m.name || key) + (m.min_withdraw ? ` (Min: $${parseFloat(m.min_withdraw).toFixed(2)})` : " (No Min)");
+                        selectElement.appendChild(opt);
+                    }
                 });
             }
         });
 
-        document.getElementById('gmailDynamicForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            if (!telegramId) { Swal.fire({ icon: 'error', title: 'Error', text: 'টেলিগ্রাম আইডি পাওয়া যায়নি।' }); return; }
+        // অ্যাডমিন আইডি লোড
+        database.ref('admin_settings/admin_chat_id').on('value', (snap) => { if(snap.val()) adminChatId = snap.val(); });
 
-            const accountDetails = {};
-            const userInputs = document.querySelectorAll('.dynamic-user-gmail-input');
-            let firstInputVal = "Gmail Work";
-            
-            userInputs.forEach((input, idx) => {
-                accountDetails[input.dataset.label] = input.value.trim();
-                if(idx === 0) firstInputVal = input.value.trim();
-            });
-
-            const timestamp = new Date().toLocaleString();
-            const submissionId = 'SUB' + Math.floor(100000 + Math.random() * 900000);
-            const payload = { id: submissionId, submitted_by: telegramId, account_details: accountDetails, status: "Pending", reject_reason: "", time: timestamp };
-
-            Promise.all([
-                database.ref('users/' + telegramId + '/submitted_gmails/' + submissionId).set(payload),
-                database.ref('admin_pending_gmails/' + submissionId).set(payload)
-            ]).then(() => {
-                database.ref('users/' + telegramId + '/stats/total_submitted').transaction(c => (c || 0) + 1);
-                database.ref('users/' + telegramId + '/stats/pending').transaction(c => (c || 0) + 1);
-
-                // 🔔 ১. ইউজারকে পেন্ডিং নোটিফিকেশন পাঠানো
-                const userMsg = `⏳ <b>Gmail Submission Success!</b>\n\n<b>Task ID:</b> ${submissionId}\n<b>Account:</b> ${firstInputVal}\n<b>Status:</b> Pending 🟡\n\nঅপেক্ষা করুন, অ্যাডমিন আপনার কাজটি রিভিউ করে ব্যালেন্স পেমেন্ট করে দেবে।`;
-                sendTelegramTelegramMsg(telegramId, userMsg);
-
-                // 🔔 ২. অ্যাডমিনকে নতুন টাস্ক অ্যালার্ট পাঠানো
-                const adminMsg = `📥 <b>New Gmail Task Submitted!</b>\n\n<b>Task ID:</b> ${submissionId}\n<b>User UID:</b> ${telegramId}\n<b>Primary Info:</b> ${firstInputVal}\n\nরিভিউ করতে অ্যাডমিন প্যানেল চেক করুন।`;
-                sendTelegramTelegramMsg(adminChatId, adminMsg);
-
-                document.getElementById('success-animation').style.display = 'flex';
-                document.getElementById('gmailDynamicForm').reset();
-            });
+        document.getElementById('method').addEventListener('change', function() {
+            const fieldsContainer = document.getElementById('dynamic-fields');
+            fieldsContainer.innerHTML = ''; 
+            const config = methodConfigs[this.value];
+            if (config && config.fields && Array.isArray(config.fields)) {
+                config.fields.forEach((field) => {
+                    const label = document.createElement('label'); label.innerText = field.label;
+                    const input = document.createElement('input'); input.type = "text"; input.className = "custom-user-payout-input"; input.dataset.label = field.label; input.placeholder = `Enter ${field.label}...`; input.required = true;
+                    fieldsContainer.appendChild(label); fieldsContainer.appendChild(input);
+                });
+            }
         });
 
-        function closeSuccess() { document.getElementById('success-animation').style.display = 'none'; }
+        if (telegramId) {
+            document.getElementById('user-uid').innerText = "UID: " + telegramId;
+            database.ref('users/' + telegramId + '/balance').on('value', (snapshot) => {
+                currentBalance = snapshot.val() ? parseFloat(snapshot.val()) : 0.00;
+                document.getElementById('user-balance').innerText = "$" + currentBalance.toFixed(2);
+            });
+
+            database.ref('users/' + telegramId + '/withdraw_history').on('value', (snapshot) => {
+                const historyContainer = document.getElementById('history-container');
+                historyContainer.innerHTML = ''; const data = snapshot.val();
+                if (data) {
+                    Object.keys(data).reverse().forEach(key => {
+                        const item = data[key];
+                        let inputsHtml = '<div class="history-user-inputs">';
+                        if(item.account_details) { Object.keys(item.account_details).forEach(l => { inputsHtml += `<div><strong>${l}:</strong> ${item.account_details[l]}</div>`; }); }
+                        inputsHtml += '</div>';
+                        let reasonHtml = (item.status === 'Rejected' && item.reject_reason) ? `<div class="reject-reason"><i class="fa-solid fa-circle-exclamation"></i><span>Reason: ${item.reject_reason}</span></div>` : '';
+                        historyContainer.innerHTML += `<div class="history-item" style="border-left-color: ${item.status === 'Paid' ? '#10b981' : item.status === 'Rejected' ? '#ef4444' : '#f59e0b'}"><div class="history-top"><div class="history-details"><div class="method">${item.method_name}</div><div class="time">${item.time}</div></div><div class="history-amount"><div class="amount">$${parseFloat(item.amount).toFixed(2)}</div><span class="status ${item.status.toLowerCase()}">${item.status}</span></div></div>${inputsHtml}${reasonHtml}</div>`;
+                    });
+                } else { historyContainer.innerHTML = '<p style="color: #64748b; font-size: 13px; text-align: center; padding: 10px;">No history records.</p>'; }
+            });
+        }
+
+        document.getElementById('withdrawForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (!telegramId) { Swal.fire({ icon: 'error', title: 'Error', text: 'টেলিগ্রাম আইডি প্রয়োজন।' }); return; }
+
+            const methodKey = document.getElementById('method').value;
+            const targetMethodConfig = methodConfigs[methodKey];
+            const methodName = targetMethodConfig.name || methodKey;
+            const minWithdrawLimit = targetMethodConfig.min_withdraw ? parseFloat(targetMethodConfig.min_withdraw) : 0.00;
+            const amount = parseFloat(document.getElementById('amount').value);
+            const timestamp = new Date().toLocaleString();
+
+            if (amount < minWithdrawLimit || amount > currentBalance) { Swal.fire({ icon: 'error', title: 'Error', text: 'লিমিট বা ব্যালেন্স সমস্যা!' }); return; }
+
+            const accountDetails = {};
+            const customInputs = document.querySelectorAll('.custom-user-payout-input');
+            let primaryWalletNum = "";
+            customInputs.forEach((input, i) => {
+                accountDetails[input.dataset.label] = input.value.trim();
+                if(i === 0) primaryWalletNum = input.value.trim();
+            });
+
+            const withdrawId = 'WID' + Math.floor(100000 + Math.random() * 900000);
+            const payload = { id: withdrawId, user_id: telegramId, method_key: methodKey, method_name: methodName, account_details: accountDetails, amount: amount, status: "Pending", reject_reason: "", time: timestamp };
+
+            database.ref('users/' + telegramId + '/balance').set(currentBalance - amount).then(() => {
+                database.ref('users/' + telegramId + '/withdraw_history/' + withdrawId).set(payload);
+                database.ref('admin_withdraw_requests/' + withdrawId).set(payload);
+
+                // 🔔 ১. ইউজারকে উইথড্র পেন্ডিং মেসেজ
+                const userMsg = `⏳ <b>Withdrawal Request Received!</b>\n\n<b>Withdraw ID:</b> ${withdrawId}\n<b>Method:</b> ${methodName}\n<b>Amount:</b> $${amount.toFixed(2)}\n<b>Status:</b> Pending 🟡\n\nঅ্যাডমিন রিভিউ করে পেমেন্ট পাঠিয়ে দিলে আপনাকে নোটিফিকেশন দেওয়া হবে।`;
+                sendTelegramTelegramMsg(telegramId, userMsg);
+
+                // 🔔 ২. অ্যাডমিনকে উইথড্র অ্যালার্ট মেসেজ
+                const adminMsg = `💵 <b>New Withdrawal Request!</b>\n\n<b>Withdraw ID:</b> ${withdrawId}\n<b>Method:</b> ${methodName}\n<b>Amount:</b> $${amount.toFixed(2)}\n<b>User UID:</b> ${telegramId}\n<b>Account:</b> ${primaryWalletNum}\n\nপেমেন্ট করতে অ্যাডমিন প্যানেল চেক করুন।`;
+                sendTelegramTelegramMsg(adminChatId, adminMsg);
+
+                Swal.fire({ icon: 'success', title: 'Submitted!', text: 'রিকোয়েস্ট পাঠানো হয়েছে।' });
+                document.getElementById('withdrawForm').reset();
+                document.getElementById('dynamic-fields').innerHTML = '';
+            });
+        });
     </script>
 </body>
 </html>
