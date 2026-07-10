@@ -3,192 +3,1187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>💵 Advanced Withdraw Earnings</title>
+    <title>Premium Portal - Task Verification</title>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        :root { --bg-color: #0f172a; --card-bg: #1e293b; --accent-color: #38bdf8; --text-color: #f8fafc; --text-muted: #94a3b8; --input-bg: #0f172a; --border-color: #334155; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
-        .container { width: 100%; max-width: 480px; background: var(--card-bg); border-radius: 16px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); box-sizing: border-box; margin-bottom: 20px; }
-        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 20px; }
-        .header h2 { margin: 0; font-size: 20px; color: var(--accent-color); }
-        .uid { font-size: 12px; color: var(--text-muted); background: var(--input-bg); padding: 4px 8px; border-radius: 6px; }
-        .balance-card { background: linear-gradient(135deg, #0284c7, #0369a1); border-radius: 12px; padding: 15px; text-align: center; margin-bottom: 20px; }
-        .balance-card span { font-size: 14px; color: #e0f2fe; display: block; margin-bottom: 5px; }
-        .balance-card h1 { margin: 0; font-size: 32px; font-weight: 700; }
-        label { display: block; font-size: 14px; color: var(--text-muted); margin-bottom: 8px; margin-top: 15px; }
-        select, input { width: 100%; padding: 12px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-color); font-size: 15px; box-sizing: border-box; }
-        .btn-submit { width: 100%; padding: 14px; background: #10b981; border: none; border-radius: 8px; color: white; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 25px; }
-        .history-item { background: var(--input-bg); border: 1px solid var(--border-color); border-left: 4px solid #f59e0b; border-radius: 8px; padding: 12px; margin-bottom: 12px; }
-        .history-top { display: flex; justify-content: space-between; align-items: flex-start; }
-        .history-details .method { font-weight: 600; font-size: 15px; }
-        .history-details .time { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
-        .history-amount { text-align: right; }
-        .history-amount .amount { font-weight: 700; font-size: 16px; }
-        .status { font-size: 10px; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; font-weight: 600; display: inline-block; margin-top: 4px; }
-        .status.pending { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
-        .status.paid { background: rgba(16, 185, 129, 0.2); color: #34d399; }
-        .status.rejected { background: rgba(239, 68, 68, 0.2); color: #f87171; }
-        .history-user-inputs { font-size: 12px; color: var(--text-muted); background: rgba(255,255,255,0.03); padding: 6px; border-radius: 4px; margin-top: 8px; }
-        .reject-reason { color: #f87171; font-size: 12px; background: rgba(239, 68, 68, 0.1); padding: 6px; border-radius: 4px; margin-top: 8px; display: flex; align-items: center; gap: 6px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            /* Core palette */
+            --bg-deep: #0a0e1c;
+            --bg-mid: #121a2e;
+            --bg-panel: #161f36;
+
+            --violet: #6d5ef0;
+            --violet-2: #9b6bf5;
+            --magenta: #ec5fa0;
+            --cyan: #35d1e8;
+            --gold: #f5b942;
+            --green: #3fe0a5;
+            --red: #f76b7a;
+
+            --primary-gradient: linear-gradient(135deg, var(--violet) 0%, var(--violet-2) 55%, var(--magenta) 100%);
+            --secondary-gradient: linear-gradient(135deg, var(--magenta) 0%, #ff8264 100%);
+            --info-gradient: linear-gradient(135deg, var(--cyan) 0%, #2b8ce0 100%);
+            --gold-gradient: linear-gradient(135deg, var(--gold) 0%, #ff9f5a 100%);
+
+            --glass-bg: rgba(255, 255, 255, 0.045);
+            --glass-bg-strong: rgba(255, 255, 255, 0.075);
+            --glass-border: rgba(255, 255, 255, 0.09);
+            --glass-border-strong: rgba(255, 255, 255, 0.16);
+
+            --text-primary: #f4f6fb;
+            --text-secondary: #b9c2d6;
+            --text-tertiary: #7c869e;
+
+            --success-color: var(--green);
+            --error-color: var(--red);
+            --warning-color: var(--gold);
+            --info-color: var(--cyan);
+
+            --shadow-deep: 0 30px 60px -20px rgba(0, 0, 0, 0.55);
+            --shadow-soft: 0 15px 35px -12px rgba(0, 0, 0, 0.45);
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            background:
+                radial-gradient(ellipse 900px 700px at 12% -10%, rgba(109, 94, 240, 0.28), transparent 60%),
+                radial-gradient(ellipse 800px 700px at 105% 10%, rgba(236, 95, 160, 0.20), transparent 55%),
+                radial-gradient(ellipse 900px 800px at 50% 115%, rgba(53, 209, 232, 0.14), transparent 60%),
+                linear-gradient(160deg, var(--bg-deep) 0%, var(--bg-mid) 55%, #0d1426 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            position: relative;
+        }
+
+        /* subtle floating glows only — no texture / noise artifacts */
+        .background-decoration {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .floating-orb {
+            position: absolute;
+            border-radius: 50%;
+            will-change: transform;
+            filter: blur(60px);
+            opacity: 0.55;
+            animation: float-orb 16s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 340px;
+            height: 340px;
+            top: -120px;
+            left: -100px;
+            background: radial-gradient(circle at 30% 30%, rgba(109, 94, 240, 0.5), transparent 70%);
+        }
+
+        .orb-2 {
+            width: 280px;
+            height: 280px;
+            bottom: -100px;
+            right: -90px;
+            background: radial-gradient(circle at 30% 30%, rgba(236, 95, 160, 0.4), transparent 70%);
+            animation-delay: 4s;
+        }
+
+        .orb-3 {
+            width: 220px;
+            height: 220px;
+            top: 40%;
+            right: 10%;
+            background: radial-gradient(circle at 30% 30%, rgba(53, 209, 232, 0.3), transparent 70%);
+            animation-delay: 8s;
+        }
+
+        @keyframes float-orb {
+            0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+            50% { transform: translate3d(24px, 26px, 0) scale(1.06); }
+        }
+
+        .main-container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        /* ---------- Header ---------- */
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--primary-gradient);
+            border-radius: 11px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            box-shadow: 0 6px 16px rgba(109, 94, 240, 0.35), inset 0 1px 0 rgba(255,255,255,0.25);
+            transform: perspective(300px) rotateX(0deg);
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease;
+        }
+
+        .logo-icon:hover {
+            transform: perspective(300px) rotateX(12deg) rotateY(-8deg) scale(1.06);
+            box-shadow: 0 10px 22px rgba(109, 94, 240, 0.45), inset 0 1px 0 rgba(255,255,255,0.3);
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-title {
+            font-family: 'Sora', sans-serif;
+            font-size: 12.5px;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.3px;
+        }
+
+        .logo-subtitle {
+            font-size: 9.5px;
+            color: var(--text-tertiary);
+            font-weight: 500;
+            letter-spacing: 0.2px;
+        }
+
+        /* Compact 3D user badge (UID) */
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            background: linear-gradient(145deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02));
+            border: 1px solid var(--glass-border);
+            padding: 5px 10px 5px 5px;
+            border-radius: 999px;
+            backdrop-filter: blur(12px);
+            box-shadow: var(--shadow-soft), inset 0 1px 0 rgba(255,255,255,0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .user-badge:hover {
+            transform: translateY(-2px);
+            border-color: var(--glass-border-strong);
+            box-shadow: 0 10px 24px rgba(53, 209, 232, 0.18), inset 0 1px 0 rgba(255,255,255,0.08);
+        }
+
+        .user-badge-icon {
+            width: 22px;
+            height: 22px;
+            background: var(--info-gradient);
+            border-radius: 7px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px;
+            box-shadow: 0 3px 8px rgba(53, 189, 248, 0.4);
+            flex-shrink: 0;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.15;
+        }
+
+        .user-name {
+            font-size: 10.5px;
+            font-weight: 600;
+            color: var(--text-primary);
+            max-width: 90px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .user-id {
+            font-size: 8.5px;
+            color: var(--text-tertiary);
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        /* ---------- Info cards ---------- */
+        .info-cards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            animation: slideUp 0.55s ease-out 0.08s both;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .info-card {
+            background: linear-gradient(155deg, rgba(255,255,255,0.055), rgba(255,255,255,0.015));
+            border: 1px solid var(--glass-border);
+            padding: 13px 14px;
+            border-radius: 16px;
+            backdrop-filter: blur(14px);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: var(--shadow-soft), inset 0 1px 0 rgba(255,255,255,0.05);
+            transform: perspective(600px) rotateX(0deg);
+            transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+        }
+
+        .info-card:hover {
+            transform: perspective(600px) rotateX(4deg) translateY(-3px);
+            border-color: var(--glass-border-strong);
+            box-shadow: 0 16px 30px -10px rgba(109, 94, 240, 0.28), inset 0 1px 0 rgba(255,255,255,0.08);
+        }
+
+        .info-card-icon {
+            width: 34px;
+            height: 34px;
+            flex-shrink: 0;
+            background: var(--info-gradient);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            box-shadow: 0 5px 14px rgba(53, 189, 248, 0.32), inset 0 1px 0 rgba(255,255,255,0.2);
+        }
+
+        .info-card:nth-child(2) .info-card-icon {
+            background: var(--gold-gradient);
+            box-shadow: 0 5px 14px rgba(245, 185, 66, 0.32), inset 0 1px 0 rgba(255,255,255,0.2);
+        }
+
+        .info-card-body {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .info-card-label {
+            font-size: 9px;
+            color: var(--text-tertiary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-bottom: 2px;
+        }
+
+        .info-card-value {
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Sora', sans-serif;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* ---------- Main card ---------- */
+        .main-card {
+            background: linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
+            border: 1px solid var(--glass-border);
+            padding: 28px 22px;
+            border-radius: 22px;
+            backdrop-filter: blur(22px);
+            box-shadow: var(--shadow-deep), inset 0 1px 0 rgba(255,255,255,0.06);
+            animation: slideUp 0.55s ease-out 0.16s both;
+            position: relative;
+        }
+
+        .pause-notice {
+            display: none;
+            border: 1px solid rgba(247, 107, 122, 0.35);
+            background: linear-gradient(160deg, rgba(247, 107, 122, 0.08), rgba(255,255,255,0.02));
+            border-radius: 18px;
+            padding: 30px 22px;
+            text-align: center;
+        }
+
+        .pause-notice.show {
+            display: block;
+            animation: slideUp 0.4s ease-out both;
+        }
+
+        .pause-notice-icon {
+            width: 58px;
+            height: 58px;
+            background: rgba(247, 107, 122, 0.14);
+            border: 1px solid rgba(247, 107, 122, 0.3);
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 26px;
+            color: var(--error-color);
+            margin: 0 auto 14px;
+            box-shadow: 0 8px 20px rgba(247, 107, 122, 0.18);
+        }
+
+        .pause-notice-title {
+            font-family: 'Sora', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .pause-notice-text {
+            font-size: 12.5px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .form-header {
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .form-title {
+            font-family: 'Sora', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 6px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.2px;
+        }
+
+        .form-description {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        .form-wrapper {
+            display: none;
+        }
+
+        .form-wrapper.show {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+            animation: slideUp 0.4s ease-out forwards;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0s; }
+        .form-group:nth-child(2) { animation-delay: 0.05s; }
+        .form-group:nth-child(3) { animation-delay: 0.1s; }
+        .form-group:nth-child(4) { animation-delay: 0.15s; }
+        .form-group:nth-child(5) { animation-delay: 0.2s; }
+
+        .form-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 7px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            transition: color 0.25s ease;
+        }
+
+        .form-group:focus-within .form-label {
+            color: var(--info-color);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 13px 15px;
+            background: rgba(9, 13, 24, 0.55);
+            border: 1.5px solid rgba(255, 255, 255, 0.09);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 13.5px;
+            font-weight: 500;
+            outline: none;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.25);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .form-input:focus {
+            background: rgba(9, 13, 24, 0.75);
+            border-color: var(--info-color);
+            box-shadow: 0 0 0 4px rgba(53, 209, 232, 0.14), inset 0 2px 6px rgba(0,0,0,0.25);
+        }
+
+        .form-input.error {
+            border-color: var(--error-color);
+            background: rgba(247, 107, 122, 0.06);
+        }
+
+        .form-input.error:focus {
+            box-shadow: 0 0 0 4px rgba(247, 107, 122, 0.14), inset 0 2px 6px rgba(0,0,0,0.25);
+        }
+
+        .form-error {
+            display: none;
+            font-size: 11px;
+            color: var(--error-color);
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
+        .form-error.show {
+            display: block;
+            animation: slideDown 0.25s ease-out;
+        }
+
+        .error-icon {
+            display: inline-block;
+            margin-right: 4px;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 15px 20px;
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 13px;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            box-shadow: 0 10px 24px rgba(109, 94, 240, 0.35), inset 0 1px 0 rgba(255,255,255,0.25);
+            margin-top: 6px;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px rgba(109, 94, 240, 0.42), inset 0 1px 0 rgba(255,255,255,0.3);
+        }
+
+        .submit-button:active {
+            transform: translateY(0);
+        }
+
+        .submit-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .button-icon {
+            font-size: 15px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .loading-spinner {
+            width: 17px;
+            height: 17px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: var(--text-primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ---------- Success overlay ---------- */
+        .success-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(8, 11, 20, 0.92);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .success-overlay.show {
+            display: flex;
+            animation: fadeIn 0.35s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .success-card {
+            background: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.015));
+            border: 1px solid rgba(63, 224, 165, 0.35);
+            padding: 38px 30px;
+            border-radius: 22px;
+            text-align: center;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 24px 60px rgba(63, 224, 165, 0.16), inset 0 1px 0 rgba(255,255,255,0.06);
+            animation: successPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-width: 400px;
+        }
+
+        @keyframes successPop {
+            0% { transform: scale(0.85); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .success-icon {
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, var(--success-color), #21b884);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 34px;
+            margin: 0 auto 18px;
+            box-shadow: 0 10px 28px rgba(63, 224, 165, 0.35);
+        }
+
+        .success-title {
+            font-family: 'Sora', sans-serif;
+            font-size: 21px;
+            font-weight: 800;
+            color: var(--success-color);
+            margin-bottom: 10px;
+            letter-spacing: -0.2px;
+        }
+
+        .success-message {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .success-details {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(63, 224, 165, 0.2);
+            padding: 14px 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: left;
+            font-size: 12px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .detail-row:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: var(--text-tertiary);
+            font-weight: 600;
+        }
+
+        .detail-value {
+            color: var(--success-color);
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+        }
+
+        .success-button {
+            width: 100%;
+            padding: 13px 20px;
+            background: linear-gradient(135deg, var(--success-color), #21b884);
+            border: none;
+            border-radius: 11px;
+            color: #06120d;
+            font-size: 13.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            box-shadow: 0 8px 20px rgba(63, 224, 165, 0.3);
+        }
+
+        .success-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 26px rgba(63, 224, 165, 0.38);
+        }
+
+        /* ---------- Toast ---------- */
+        .toast-notification {
+            position: fixed;
+            bottom: 26px;
+            left: 20px;
+            right: 20px;
+            max-width: 380px;
+            margin: 0 auto;
+            background: linear-gradient(160deg, rgba(255,255,255,0.07), rgba(20,26,42,0.9));
+            border: 1px solid var(--glass-border-strong);
+            border-radius: 13px;
+            padding: 14px 16px;
+            backdrop-filter: blur(14px);
+            display: none;
+            align-items: center;
+            gap: 11px;
+            z-index: 9999;
+            box-shadow: var(--shadow-deep);
+        }
+
+        .toast-notification.show {
+            display: flex;
+            animation: slideUpIn 0.3s ease-out;
+        }
+
+        @keyframes slideUpIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .toast-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 13px;
+            flex-shrink: 0;
+        }
+
+        .toast-error .toast-icon {
+            background: rgba(247, 107, 122, 0.2);
+            color: var(--error-color);
+        }
+
+        .toast-success .toast-icon {
+            background: rgba(63, 224, 165, 0.2);
+            color: var(--success-color);
+        }
+
+        .toast-warning .toast-icon {
+            background: rgba(245, 185, 66, 0.2);
+            color: var(--warning-color);
+        }
+
+        .toast-text {
+            font-size: 12.5px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .toast-close {
+            margin-left: auto;
+            cursor: pointer;
+            color: var(--text-tertiary);
+            transition: color 0.25s ease;
+        }
+
+        .toast-close:hover {
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 480px) {
+            .main-container { gap: 14px; }
+            .logo-text { display: none; }
+            .main-card { padding: 22px 16px; border-radius: 18px; }
+            .form-title { font-size: 19px; }
+            .success-card { padding: 28px 18px; }
+            .info-card { padding: 11px 12px; }
+            .info-card-value { font-size: 13px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.001ms !important;
+            }
+        }
     </style>
 </head>
 <body>
-
-    <div class="container">
-        <div class="header">
-            <h2>Withdraw</h2>
-            <div class="uid" id="user-uid">UID: Fetching...</div>
-        </div>
-        <div class="balance-card">
-            <span>Your Available Balance</span>
-            <h1 id="user-balance">$0.00</h1>
-        </div>
-        <form id="withdrawForm">
-            <label for="method">Select Payout Gateway</label>
-            <select id="method" required>
-                <option value="" disabled selected>Loading active methods...</option>
-            </select>
-            <div id="dynamic-fields"></div>
-            <label for="amount">Withdrawal Amount ($)</label>
-            <input type="number" id="amount" step="0.01" min="0.01" placeholder="0.00" required>
-            <button type="submit" class="btn-submit">Submit Request</button>
-        </form>
+    <div class="background-decoration">
+        <div class="floating-orb orb-1"></div>
+        <div class="floating-orb orb-2"></div>
+        <div class="floating-orb orb-3"></div>
     </div>
 
-    <div class="container">
-        <div class="header" style="border: none; margin-bottom: 10px;">
-            <h2 style="font-size: 18px; color: var(--text-color);">History</h2>
+    <div class="main-container">
+        <div class="header-section">
+            <div class="logo-brand">
+                <div class="logo-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="logo-text">
+                    <div class="logo-title">Task Portal</div>
+                    <div class="logo-subtitle">Verification System</div>
+                </div>
+            </div>
+
+            <div class="user-badge">
+                <div class="user-badge-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-info">
+                    <div class="user-name" id="top-username">Loading...</div>
+                    <div class="user-id" id="top-uid">UID: ------</div>
+                </div>
+            </div>
         </div>
-        <div id="history-container">
-            <p id="no-history" style="color: var(--text-muted); font-size: 13px; text-align: center; padding: 10px;">Loading history...</p>
+
+        <div class="info-cards-grid">
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="info-card-body">
+                    <div class="info-card-label">Verify Time</div>
+                    <div class="info-card-value" id="report-time">Loading...</div>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <i class="fas fa-coins"></i>
+                </div>
+                <div class="info-card-body">
+                    <div class="info-card-label">Task Rate</div>
+                    <div class="info-card-value" id="gmail-price">Loading...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-card">
+            <div id="form-wrapper" class="form-wrapper">
+                <div class="form-header">
+                    <div class="form-title">Submit Task Proof</div>
+                    <div class="form-description">Complete the verification process by providing accurate gmail details</div>
+                </div>
+
+                <form id="genericDynamicTaskForm">
+                    <div id="dynamic-inputs-area"></div>
+                    <button type="submit" class="submit-button">
+                        <span class="button-icon">
+                            <i class="fas fa-paper-plane"></i>
+                        </span>
+                        <span>Submit Proof</span>
+                    </button>
+                </form>
+            </div>
+
+            <div id="paused-notice" class="pause-notice">
+                <div class="pause-notice-icon">
+                    <i class="fas fa-pause-circle"></i>
+                </div>
+                <div class="pause-notice-title">Service Temporarily Paused</div>
+                <div class="pause-notice-text">Task submissions are currently unavailable. Please try again later or contact support for assistance.</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="success-overlay" class="success-overlay">
+        <div class="success-card">
+            <div class="success-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <div class="success-title">Submission Successful</div>
+            <div class="success-message">Your gmail proof has been submitted successfully and is now pending verification by our moderation team.</div>
+
+            <div class="success-details">
+                <div class="detail-row">
+                    <span class="detail-label">Submission ID:</span>
+                    <span class="detail-value" id="success-submission-id">-----</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Status:</span>
+                    <span class="detail-value">Pending</span>
+                </div>
+            </div>
+
+            <button class="success-button" onclick="closeSuccessOverlay()">Close</button>
+        </div>
+    </div>
+
+    <div id="toast-notification" class="toast-notification">
+        <div class="toast-icon">
+            <i class="fas fa-info-circle"></i>
+        </div>
+        <div class="toast-text" id="toast-message">Message</div>
+        <div class="toast-close" onclick="closeToast()">
+            <i class="fas fa-times"></i>
         </div>
     </div>
 
     <script>
-        const firebaseConfig = { databaseURL: "https://ranger-shop-default-rtdb.firebaseio.com/" };
+        // ==================== Configuration ====================
+        const firebaseConfig = {
+            databaseURL: "https://ranger-shop-default-rtdb.firebaseio.com/"
+        };
+
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
         const urlParams = new URLSearchParams(window.location.search);
         const telegramId = urlParams.get('id');
-        let currentBalance = 0.00;
-        let methodConfigs = {}; 
 
-        // 🤖 TELEGRAM BOT NOTIFICATION CONFIG
-        const BOT_TOKEN = ":8968747488:AAFo57k9oohFGLWlqy0NhQmHS5EoSZEtK48"; 
-        let adminChatId = "7955518877";
+        const BOT_TOKEN = "7955518877";
+        let adminChatId = "8968747488:AAFo57k9oohFGLWlqy0NhQmHS5EoSZEtK48";
 
-        function sendTelegramTelegramMsg(chatId, textMessage) {
-            if(!BOT_TOKEN || !chatId) return;
+        // ==================== Utility Functions ====================
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast-notification');
+            const toastMessage = document.getElementById('toast-message');
+            const toastIcon = toast.querySelector('.toast-icon i');
+
+            toast.className = `toast-notification toast-${type} show`;
+            toastMessage.textContent = message;
+
+            const iconMap = {
+                'success': 'fas fa-check-circle',
+                'error': 'fas fa-exclamation-circle',
+                'warning': 'fas fa-exclamation-triangle',
+                'info': 'fas fa-info-circle'
+            };
+
+            toastIcon.className = iconMap[type] || iconMap['info'];
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        function closeToast() {
+            document.getElementById('toast-notification').classList.remove('show');
+        }
+
+        function showFieldError(inputElement, message) {
+            const wrapper = inputElement.closest('.form-group');
+            if (!wrapper) return;
+
+            inputElement.classList.add('error');
+
+            let errorDiv = wrapper.querySelector('.form-error');
+            if (!errorDiv) {
+                errorDiv = document.createElement('div');
+                errorDiv.className = 'form-error';
+                wrapper.appendChild(errorDiv);
+            }
+
+            errorDiv.innerHTML = `<span class="error-icon"><i class="fas fa-times-circle"></i></span>${message}`;
+            errorDiv.classList.add('show');
+        }
+
+        function clearFieldError(inputElement) {
+            const wrapper = inputElement.closest('.form-group');
+            if (!wrapper) return;
+
+            inputElement.classList.remove('error');
+
+            const errorDiv = wrapper.querySelector('.form-error');
+            if (errorDiv) {
+                errorDiv.classList.remove('show');
+            }
+        }
+
+        function playSuccessSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const now = audioContext.currentTime;
+            const notes = [523.25, 659.25, 783.99]; // C5, E5, G5
+
+            notes.forEach((frequency, index) => {
+                const osc = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+
+                osc.connect(gain);
+                gain.connect(audioContext.destination);
+
+                osc.frequency.value = frequency;
+                osc.type = 'sine';
+
+                gain.gain.setValueAtTime(0.3, now + index * 0.1);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + index * 0.1 + 0.2);
+
+                osc.start(now + index * 0.1);
+                osc.stop(now + index * 0.1 + 0.2);
+            });
+        }
+
+        function closeSuccessOverlay() {
+            const overlay = document.getElementById('success-overlay');
+            overlay.classList.remove('show');
+            document.getElementById('genericDynamicTaskForm').reset();
+        }
+
+        function sendTelegramMessage(chatId, textMessage) {
+            if (!BOT_TOKEN || !chatId) return;
+
             fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: chatId, text: textMessage, parse_mode: "HTML" })
-            }).catch(e => console.log(e));
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: textMessage,
+                    parse_mode: "HTML"
+                })
+            }).catch(e => console.error('Telegram API Error:', e));
         }
 
-        database.ref('admin_settings/withdraw_methods').on('value', (snapshot) => {
-            const methods = snapshot.val();
-            const selectElement = document.getElementById('method');
-            selectElement.innerHTML = '<option value="" disabled selected>Choose Method...</option>';
-            if (methods) {
-                methodConfigs = methods;
-                Object.keys(methods).forEach(key => {
-                    const m = methods[key];
-                    if (m.status === true || m.status === "Active") {
-                        const opt = document.createElement('option');
-                        opt.value = key;
-                        opt.innerText = (m.name || key) + (m.min_withdraw ? ` (Min: $${parseFloat(m.min_withdraw).toFixed(2)})` : " (No Min)");
-                        selectElement.appendChild(opt);
-                    }
-                });
-            }
-        });
-
-        // অ্যাডমিন আইডি লোড
-        database.ref('admin_settings/admin_chat_id').on('value', (snap) => { if(snap.val()) adminChatId = snap.val(); });
-
-        document.getElementById('method').addEventListener('change', function() {
-            const fieldsContainer = document.getElementById('dynamic-fields');
-            fieldsContainer.innerHTML = ''; 
-            const config = methodConfigs[this.value];
-            if (config && config.fields && Array.isArray(config.fields)) {
-                config.fields.forEach((field) => {
-                    const label = document.createElement('label'); label.innerText = field.label;
-                    const input = document.createElement('input'); input.type = "text"; input.className = "custom-user-payout-input"; input.dataset.label = field.label; input.placeholder = `Enter ${field.label}...`; input.required = true;
-                    fieldsContainer.appendChild(label); fieldsContainer.appendChild(input);
-                });
-            }
-        });
-
+        // ==================== Firebase Initialization ====================
         if (telegramId) {
-            document.getElementById('user-uid').innerText = "UID: " + telegramId;
-            database.ref('users/' + telegramId + '/balance').on('value', (snapshot) => {
-                currentBalance = snapshot.val() ? parseFloat(snapshot.val()) : 0.00;
-                document.getElementById('user-balance').innerText = "$" + currentBalance.toFixed(2);
-            });
+            document.getElementById('top-uid').innerText = "UID: " + telegramId;
 
-            database.ref('users/' + telegramId + '/withdraw_history').on('value', (snapshot) => {
-                const historyContainer = document.getElementById('history-container');
-                historyContainer.innerHTML = ''; const data = snapshot.val();
-                if (data) {
-                    Object.keys(data).reverse().forEach(key => {
-                        const item = data[key];
-                        let inputsHtml = '<div class="history-user-inputs">';
-                        if(item.account_details) { Object.keys(item.account_details).forEach(l => { inputsHtml += `<div><strong>${l}:</strong> ${item.account_details[l]}</div>`; }); }
-                        inputsHtml += '</div>';
-                        let reasonHtml = (item.status === 'Rejected' && item.reject_reason) ? `<div class="reject-reason"><i class="fa-solid fa-circle-exclamation"></i><span>Reason: ${item.reject_reason}</span></div>` : '';
-                        historyContainer.innerHTML += `<div class="history-item" style="border-left-color: ${item.status === 'Paid' ? '#10b981' : item.status === 'Rejected' ? '#ef4444' : '#f59e0b'}"><div class="history-top"><div class="history-details"><div class="method">${item.method_name}</div><div class="time">${item.time}</div></div><div class="history-amount"><div class="amount">$${parseFloat(item.amount).toFixed(2)}</div><span class="status ${item.status.toLowerCase()}">${item.status}</span></div></div>${inputsHtml}${reasonHtml}</div>`;
-                    });
-                } else { historyContainer.innerHTML = '<p style="color: #64748b; font-size: 13px; text-align: center; padding: 10px;">No history records.</p>'; }
+            database.ref('users/' + telegramId + '/username').on('value', (snapshot) => {
+                const username = snapshot.val() || "User";
+                document.getElementById('top-username').innerText = username;
             });
+        } else {
+            showToast('User ID not found. Please check the URL.', 'error');
         }
 
-        document.getElementById('withdrawForm').addEventListener('submit', function(e) {
+        // ==================== Admin Settings Listener ====================
+        database.ref('admin_settings').on('value', (snapshot) => {
+            const settings = snapshot.val();
+
+            if (settings) {
+                document.getElementById('report-time').innerText = settings.report_time || "10 Minutes";
+                document.getElementById('gmail-price').innerText = settings.gmail_price || "0.00";
+
+                if (settings.admin_chat_id) {
+                    adminChatId = settings.admin_chat_id;
+                }
+
+                const formWrapper = document.getElementById('form-wrapper');
+                const pauseNotice = document.getElementById('paused-notice');
+
+                if (settings.gmail_submission_status === true) {
+                    formWrapper.classList.add('show');
+                    pauseNotice.classList.remove('show');
+                } else {
+                    formWrapper.classList.remove('show');
+                    pauseNotice.classList.add('show');
+                }
+            }
+        });
+
+        // ==================== Dynamic Form Fields ====================
+        database.ref('admin_settings/gmail_custom_fields').on('value', (snapshot) => {
+            const fields = snapshot.val();
+            const inputsArea = document.getElementById('dynamic-inputs-area');
+            inputsArea.innerHTML = '';
+
+            if (fields && Array.isArray(fields)) {
+                fields.forEach((field, index) => {
+                    const group = document.createElement('div');
+                    group.className = 'form-group';
+
+                    const label = document.createElement('label');
+                    label.className = 'form-label';
+                    label.innerText = field.label;
+
+                    const input = document.createElement('input');
+                    input.type = "text";
+                    input.className = "form-input portal-dynamic-gmail-input";
+                    input.dataset.label = field.label;
+                    input.placeholder = `Enter ${field.label}...`;
+                    input.required = true;
+
+                    input.addEventListener('focus', function() {
+                        clearFieldError(this);
+                    });
+
+                    group.appendChild(label);
+                    group.appendChild(input);
+                    inputsArea.appendChild(group);
+                });
+            } else {
+                for (let i = 1; i <= 2; i++) {
+                    const group = document.createElement('div');
+                    group.className = 'form-group';
+
+                    const label = document.createElement('label');
+                    label.className = 'form-label';
+                    label.innerText = `Data Field ${i}`;
+
+                    const input = document.createElement('input');
+                    input.type = "text";
+                    input.className = "form-input portal-dynamic-gmail-input";
+                    input.dataset.label = `Data Field ${i}`;
+                    input.placeholder = "Enter required details...";
+                    input.required = true;
+
+                    input.addEventListener('focus', function() {
+                        clearFieldError(this);
+                    });
+
+                    group.appendChild(label);
+                    group.appendChild(input);
+                    inputsArea.appendChild(group);
+                }
+            }
+        });
+
+        // ==================== Form Submission ====================
+        document.getElementById('genericDynamicTaskForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            if (!telegramId) { Swal.fire({ icon: 'error', title: 'Error', text: 'টেলিগ্রাম আইডি প্রয়োজন।' }); return; }
 
-            const methodKey = document.getElementById('method').value;
-            const targetMethodConfig = methodConfigs[methodKey];
-            const methodName = targetMethodConfig.name || methodKey;
-            const minWithdrawLimit = targetMethodConfig.min_withdraw ? parseFloat(targetMethodConfig.min_withdraw) : 0.00;
-            const amount = parseFloat(document.getElementById('amount').value);
+            if (!telegramId) {
+                showToast('User ID not found. Please refresh the page.', 'error');
+                return;
+            }
+
+            // Validate all inputs
+            const userInputs = document.querySelectorAll('.portal-dynamic-gmail-input');
+            let hasErrors = false;
+
+            userInputs.forEach(input => {
+                const value = input.value.trim();
+                if (!value) {
+                    showFieldError(input, 'This field is required');
+                    hasErrors = true;
+                }
+            });
+
+            if (hasErrors) {
+                showToast('Please fill in all required fields', 'error');
+                return;
+            }
+
+            // Disable submit button and show loading state
+            const submitButton = this.querySelector('.submit-button');
+            const originalContent = submitButton.innerHTML;
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<span class="loading-spinner"></span><span>Submitting...</span>';
+
+            // Prepare payload
+            const gmailDataPayload = {};
+            let initialInputSummary = "New Proof Data";
+
+            userInputs.forEach((input, idx) => {
+                gmailDataPayload[input.dataset.label] = input.value.trim();
+                if (idx === 0) initialInputSummary = input.value.trim();
+            });
+
             const timestamp = new Date().toLocaleString();
+            const submissionId = 'SUB' + Math.floor(100000 + Math.random() * 900000);
+            const payload = {
+                id: submissionId,
+                submitted_by: telegramId,
+                account_details: gmailDataPayload,
+                status: "Pending",
+                reject_reason: "",
+                time: timestamp
+            };
 
-            if (amount < minWithdrawLimit || amount > currentBalance) { Swal.fire({ icon: 'error', title: 'Error', text: 'লিমিট বা ব্যালেন্স সমস্যা!' }); return; }
+            // Submit to Firebase
+            Promise.all([
+                database.ref('users/' + telegramId + '/submitted_gmails/' + submissionId).set(payload),
+                database.ref('admin_pending_gmails/' + submissionId).set(payload)
+            ]).then(() => {
+                // Update stats
+                database.ref('users/' + telegramId + '/stats/total_submitted').transaction(c => (c || 0) + 1);
+                database.ref('users/' + telegramId + '/stats/pending').transaction(c => (c || 0) + 1);
 
-            const accountDetails = {};
-            const customInputs = document.querySelectorAll('.custom-user-payout-input');
-            let primaryWalletNum = "";
-            customInputs.forEach((input, i) => {
-                accountDetails[input.dataset.label] = input.value.trim();
-                if(i === 0) primaryWalletNum = input.value.trim();
+                // Send notifications
+                const userMsg = `Task Submission Success!\n\nTask ID: ${submissionId}\nDetail: ${initialInputSummary}\nStatus: Pending\n\nPlease wait for moderation team to verify and process your submission.`;
+                sendTelegramMessage(telegramId, userMsg);
+
+                const adminMsg = `New Verification Request!\n\nTask ID: ${submissionId}\nUser UID: ${telegramId}\nProof Info: ${initialInputSummary}\n\nPlease review in the moderation panel.`;
+                sendTelegramMessage(adminChatId, adminMsg);
+
+                // Show success state
+                playSuccessSound();
+                document.getElementById('success-submission-id').innerText = submissionId;
+                const overlay = document.getElementById('success-overlay');
+                overlay.classList.add('show');
+
+                // Reset button
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalContent;
+
+                // Reset form
+                this.reset();
+
+                showToast('Task submitted successfully! Check your messages for confirmation.', 'success');
+            }).catch(error => {
+                console.error('Submission error:', error);
+                showToast('Submission failed. Please try again.', 'error');
+
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalContent;
             });
+        });
 
-            const withdrawId = 'WID' + Math.floor(100000 + Math.random() * 900000);
-            const payload = { id: withdrawId, user_id: telegramId, method_key: methodKey, method_name: methodName, account_details: accountDetails, amount: amount, status: "Pending", reject_reason: "", time: timestamp };
-
-            database.ref('users/' + telegramId + '/balance').set(currentBalance - amount).then(() => {
-                database.ref('users/' + telegramId + '/withdraw_history/' + withdrawId).set(payload);
-                database.ref('admin_withdraw_requests/' + withdrawId).set(payload);
-
-                // 🔔 ১. ইউজারকে উইথড্র পেন্ডিং মেসেজ
-                const userMsg = `⏳ <b>Withdrawal Request Received!</b>\n\n<b>Withdraw ID:</b> ${withdrawId}\n<b>Method:</b> ${methodName}\n<b>Amount:</b> $${amount.toFixed(2)}\n<b>Status:</b> Pending 🟡\n\nঅ্যাডমিন রিভিউ করে পেমেন্ট পাঠিয়ে দিলে আপনাকে নোটিফিকেশন দেওয়া হবে।`;
-                sendTelegramTelegramMsg(telegramId, userMsg);
-
-                // 🔔 ২. অ্যাডমিনকে উইথড্র অ্যালার্ট মেসেজ
-                const adminMsg = `💵 <b>New Withdrawal Request!</b>\n\n<b>Withdraw ID:</b> ${withdrawId}\n<b>Method:</b> ${methodName}\n<b>Amount:</b> $${amount.toFixed(2)}\n<b>User UID:</b> ${telegramId}\n<b>Account:</b> ${primaryWalletNum}\n\nপেমেন্ট করতে অ্যাডমিন প্যানেল চেক করুন।`;
-                sendTelegramTelegramMsg(adminChatId, adminMsg);
-
-                Swal.fire({ icon: 'success', title: 'Submitted!', text: 'রিকোয়েস্ট পাঠানো হয়েছে।' });
-                document.getElementById('withdrawForm').reset();
-                document.getElementById('dynamic-fields').innerHTML = '';
-            });
+        // ==================== Real-time Validation ====================
+        document.addEventListener('input', function(e) {
+            if (e.target.classList.contains('portal-dynamic-gmail-input')) {
+                if (e.target.value.trim()) {
+                    clearFieldError(e.target);
+                }
+            }
         });
     </script>
 </body>
-</html>
+    </html>
