@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Premium Portal - Task Verification</title>
+    <title>Withdraw Earnings</title>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -18,60 +19,53 @@
         }
 
         :root {
-            /* Core palette */
-            --bg-deep: #0a0e1c;
-            --bg-mid: #121a2e;
+            /* Premium palette: deep navy + champagne gold + emerald */
+            --bg-deep: #070a12;
+            --bg-mid: #0d1220;
 
-            --violet: #6d5ef0;
-            --violet-2: #9b6bf5;
-            --magenta: #ec5fa0;
+            --gold: #d9b26a;
+            --gold-2: #f2d795;
+            --emerald: #16a875;
+            --emerald-2: #12c98a;
             --cyan: #35d1e8;
-            --gold: #f5b942;
-            --green: #3fe0a5;
-            --red: #f76b7a;
+            --warn: #f2c14e;
+            --red: #f2707e;
 
-            --primary-gradient: linear-gradient(135deg, var(--violet) 0%, var(--violet-2) 55%, var(--magenta) 100%);
+            --primary-gradient: linear-gradient(135deg, var(--gold) 0%, var(--gold-2) 50%, var(--gold) 100%);
+            --money-gradient: linear-gradient(135deg, var(--emerald) 0%, var(--emerald-2) 55%, var(--gold) 100%);
             --info-gradient: linear-gradient(135deg, var(--cyan) 0%, #2b8ce0 100%);
-            --gold-gradient: linear-gradient(135deg, var(--gold) 0%, #ff9f5a 100%);
 
-            --glass-border: rgba(255, 255, 255, 0.09);
-            --glass-border-strong: rgba(255, 255, 255, 0.16);
+            --glass-border: rgba(217, 178, 106, 0.14);
+            --glass-border-strong: rgba(217, 178, 106, 0.28);
 
-            --text-primary: #f4f6fb;
-            --text-secondary: #b9c2d6;
-            --text-tertiary: #7c869e;
+            --text-primary: #f6f3ec;
+            --text-secondary: #bcc0cc;
+            --text-tertiary: #7c8296;
 
-            --success-color: var(--green);
+            --success-color: var(--emerald-2);
             --error-color: var(--red);
-            --warning-color: var(--gold);
+            --warning-color: var(--warn);
             --info-color: var(--cyan);
 
-            --shadow-deep: 0 30px 60px -20px rgba(0, 0, 0, 0.55);
-            --shadow-soft: 0 15px 35px -12px rgba(0, 0, 0, 0.45);
+            --shadow-deep: 0 30px 60px -20px rgba(0, 0, 0, 0.6);
+            --shadow-soft: 0 15px 35px -12px rgba(0, 0, 0, 0.5);
         }
 
-        html, body {
-            width: 100%;
-            min-height: 100%;
-        }
-
-        html {
-            /* smooths the 3D scene without taxing the whole page */
-            perspective: 1400px;
-        }
+        html, body { width: 100%; min-height: 100%; }
+        html { perspective: 1400px; }
 
         body {
             background:
-                radial-gradient(ellipse 900px 700px at 12% -10%, rgba(109, 94, 240, 0.24), transparent 60%),
-                radial-gradient(ellipse 800px 700px at 105% 10%, rgba(236, 95, 160, 0.17), transparent 55%),
-                radial-gradient(ellipse 900px 800px at 50% 115%, rgba(53, 209, 232, 0.12), transparent 60%),
-                linear-gradient(160deg, var(--bg-deep) 0%, var(--bg-mid) 55%, #0d1426 100%);
+                radial-gradient(ellipse 900px 700px at 12% -10%, rgba(217, 178, 106, 0.14), transparent 60%),
+                radial-gradient(ellipse 800px 700px at 105% 10%, rgba(22, 168, 117, 0.16), transparent 55%),
+                radial-gradient(ellipse 900px 800px at 50% 115%, rgba(53, 209, 232, 0.09), transparent 60%),
+                linear-gradient(160deg, var(--bg-deep) 0%, var(--bg-mid) 55%, #080c16 100%);
             color: var(--text-primary);
             min-height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            padding: 24px;
+            padding: 24px 20px 40px;
             position: relative;
             overflow-x: hidden;
         }
@@ -86,19 +80,18 @@
             transform-style: preserve-3d;
         }
 
-        /* Depth grid plane — gives the background genuine spatial recession */
         .depth-plane {
             position: absolute;
             inset: -10%;
             background-image:
-                linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+                linear-gradient(rgba(217,178,106,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(217,178,106,0.05) 1px, transparent 1px);
             background-size: 64px 64px;
             transform: rotateX(62deg) translateZ(-260px) translateY(10%);
             transform-origin: center;
             mask-image: radial-gradient(ellipse 70% 55% at 50% 30%, black 10%, transparent 75%);
             -webkit-mask-image: radial-gradient(ellipse 70% 55% at 50% 30%, black 10%, transparent 75%);
-            opacity: 0.5;
+            opacity: 0.45;
             will-change: transform;
         }
 
@@ -107,43 +100,20 @@
             border-radius: 50%;
             will-change: transform;
             filter: blur(46px);
-            opacity: 0.55;
+            opacity: 0.45;
             transform: translateZ(0);
             animation: float-orb 18s ease-in-out infinite;
         }
 
-        .orb-1 {
-            width: 320px;
-            height: 320px;
-            top: -110px;
-            left: -100px;
-            background: radial-gradient(circle at 30% 30%, rgba(109, 94, 240, 0.5), transparent 70%);
-        }
-
-        .orb-2 {
-            width: 260px;
-            height: 260px;
-            bottom: -90px;
-            right: -80px;
-            background: radial-gradient(circle at 30% 30%, rgba(236, 95, 160, 0.4), transparent 70%);
-            animation-delay: 4s;
-        }
-
-        .orb-3 {
-            width: 200px;
-            height: 200px;
-            top: 42%;
-            right: 8%;
-            background: radial-gradient(circle at 30% 30%, rgba(53, 209, 232, 0.3), transparent 70%);
-            animation-delay: 8s;
-        }
+        .orb-1 { width: 320px; height: 320px; top: -110px; left: -100px; background: radial-gradient(circle at 30% 30%, rgba(217, 178, 106, 0.4), transparent 70%); }
+        .orb-2 { width: 260px; height: 260px; bottom: -90px; right: -80px; background: radial-gradient(circle at 30% 30%, rgba(22, 168, 117, 0.4), transparent 70%); animation-delay: 4s; }
+        .orb-3 { width: 200px; height: 200px; top: 42%; right: 8%; background: radial-gradient(circle at 30% 30%, rgba(53, 209, 232, 0.25), transparent 70%); animation-delay: 8s; }
 
         @keyframes float-orb {
             0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
             50% { transform: translate3d(20px, 22px, 0) scale(1.05); }
         }
 
-        /* Parallax wrapper — subtle depth on pointer devices only (perf-safe) */
         .parallax-layer {
             position: absolute;
             inset: 0;
@@ -156,6 +126,55 @@
             .parallax-layer { transition: none; }
         }
 
+        /* ---------- Spinning 3D gold coins ---------- */
+        .coin3d {
+            position: absolute;
+            transform-style: preserve-3d;
+            animation: coin-spin linear infinite, coin-float ease-in-out infinite;
+            will-change: transform;
+        }
+
+        .coin-face {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            font-family: 'Sora', sans-serif;
+            font-weight: 800;
+        }
+
+        .coin-face.front {
+            background: linear-gradient(135deg, var(--gold-2), var(--gold) 60%, #a9793a);
+            color: rgba(40, 28, 6, 0.75);
+            box-shadow: inset 0 0 0 2px rgba(255,255,255,0.25), 0 0 24px rgba(217, 178, 106, 0.35);
+        }
+
+        .coin-face.back {
+            background: linear-gradient(135deg, #a9793a, var(--gold) 50%, var(--gold-2));
+            color: rgba(40, 28, 6, 0.6);
+            transform: rotateY(180deg);
+            box-shadow: inset 0 0 0 2px rgba(255,255,255,0.18);
+        }
+
+        @keyframes coin-spin {
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(360deg); }
+        }
+
+        @keyframes coin-float {
+            0%, 100% { translate: 0 0; }
+            50% { translate: 0 -16px; }
+        }
+
+        .coin-1 { width: 46px; height: 46px; top: 10%; left: 9%; font-size: 20px; animation-duration: 7s, 9s; opacity: 0.75; }
+        .coin-2 { width: 34px; height: 34px; top: 66%; left: 85%; font-size: 15px; animation-duration: 5.5s, 7s; opacity: 0.6; animation-delay: 0s, 1.5s; }
+        .coin-3 { width: 58px; height: 58px; top: 28%; left: 80%; font-size: 26px; animation-duration: 9s, 11s; opacity: 0.5; animation-delay: 0s, 3s; }
+        .coin-4 { width: 30px; height: 30px; top: 82%; left: 14%; font-size: 13px; animation-duration: 6s, 8s; opacity: 0.65; animation-delay: 0s, 2s; }
+
         /* ================= Page loader (3D intro) ================= */
         #page-loader {
             position: fixed;
@@ -166,19 +185,13 @@
             justify-content: center;
             align-items: center;
             gap: 18px;
-            background: linear-gradient(160deg, var(--bg-deep) 0%, var(--bg-mid) 55%, #0d1426 100%);
+            background: linear-gradient(160deg, var(--bg-deep) 0%, var(--bg-mid) 55%, #080c16 100%);
             transition: opacity 0.5s ease, visibility 0.5s ease;
         }
 
-        #page-loader.hide {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
+        #page-loader.hide { opacity: 0; visibility: hidden; pointer-events: none; }
 
-        .loader-cube-wrap {
-            perspective: 400px;
-        }
+        .loader-cube-wrap { perspective: 400px; }
 
         .loader-cube {
             width: 46px;
@@ -192,16 +205,16 @@
             position: absolute;
             width: 46px;
             height: 46px;
-            background: var(--primary-gradient);
-            opacity: 0.85;
+            background: var(--money-gradient);
+            opacity: 0.9;
             border-radius: 10px;
-            box-shadow: 0 0 22px rgba(109, 94, 240, 0.5);
+            box-shadow: 0 0 22px rgba(22, 168, 117, 0.5);
         }
 
         .loader-cube span:nth-child(1) { transform: rotateY(0deg) translateZ(23px); }
         .loader-cube span:nth-child(2) { transform: rotateY(90deg) translateZ(23px); background: var(--info-gradient); box-shadow: 0 0 22px rgba(53, 189, 248, 0.5); }
         .loader-cube span:nth-child(3) { transform: rotateY(180deg) translateZ(23px); }
-        .loader-cube span:nth-child(4) { transform: rotateY(-90deg) translateZ(23px); background: var(--gold-gradient); box-shadow: 0 0 22px rgba(245, 185, 66, 0.5); }
+        .loader-cube span:nth-child(4) { transform: rotateY(-90deg) translateZ(23px); background: var(--primary-gradient); box-shadow: 0 0 22px rgba(217, 178, 106, 0.5); }
 
         @keyframes cube-spin {
             from { transform: rotateX(-18deg) rotateY(0deg); }
@@ -217,8 +230,8 @@
             color: var(--text-tertiary);
         }
 
-        /* ================= Main content 3D reveal ================= */
-        .main-container {
+        /* ================= Page wrapper / 3D reveal ================= */
+        .page-wrap {
             position: relative;
             z-index: 2;
             width: 100%;
@@ -231,37 +244,17 @@
             transform: perspective(1200px) rotateX(-14deg) translateY(40px) scale(0.94);
         }
 
-        .main-container.reveal {
-            animation: heroReveal 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
+        .page-wrap.reveal { animation: heroReveal 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
 
         @keyframes heroReveal {
-            0% {
-                opacity: 0;
-                transform: perspective(1200px) rotateX(-14deg) translateY(40px) scale(0.94);
-            }
-            60% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 1;
-                transform: perspective(1200px) rotateX(0deg) translateY(0) scale(1);
-            }
+            0% { opacity: 0; transform: perspective(1200px) rotateX(-14deg) translateY(40px) scale(0.94); }
+            60% { opacity: 1; }
+            100% { opacity: 1; transform: perspective(1200px) rotateX(0deg) translateY(0) scale(1); }
         }
 
         /* ---------- Header ---------- */
-        .header-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .logo-brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .header-section { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+        .logo-brand { display: flex; align-items: center; gap: 10px; }
 
         .logo-icon {
             width: 36px;
@@ -272,20 +265,17 @@
             justify-content: center;
             align-items: center;
             font-size: 16px;
-            box-shadow: 0 6px 16px rgba(109, 94, 240, 0.35), inset 0 1px 0 rgba(255,255,255,0.25);
-            transform: perspective(300px) rotateX(0deg);
+            color: #2a1d06;
+            box-shadow: 0 6px 16px rgba(217, 178, 106, 0.3), inset 0 1px 0 rgba(255,255,255,0.35);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .logo-icon:hover {
             transform: perspective(300px) rotateX(10deg) rotateY(-6deg) scale(1.05);
-            box-shadow: 0 10px 22px rgba(109, 94, 240, 0.45), inset 0 1px 0 rgba(255,255,255,0.3);
+            box-shadow: 0 10px 22px rgba(217, 178, 106, 0.4), inset 0 1px 0 rgba(255,255,255,0.4);
         }
 
-        .logo-text {
-            display: flex;
-            flex-direction: column;
-        }
+        .logo-text { display: flex; flex-direction: column; }
 
         .logo-title {
             font-family: 'Sora', sans-serif;
@@ -297,30 +287,24 @@
             letter-spacing: 0.3px;
         }
 
-        .logo-subtitle {
-            font-size: 9.5px;
-            color: var(--text-tertiary);
-            font-weight: 500;
-            letter-spacing: 0.2px;
-        }
+        .logo-subtitle { font-size: 9.5px; color: var(--text-tertiary); font-weight: 500; }
 
-        /* Compact 3D user badge (UID) */
         .user-badge {
             display: flex;
             align-items: center;
             gap: 7px;
-            background: linear-gradient(145deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02));
+            background: linear-gradient(145deg, rgba(217,178,106,0.08), rgba(255,255,255,0.02));
             border: 1px solid var(--glass-border);
             padding: 5px 10px 5px 5px;
             border-radius: 999px;
-            box-shadow: var(--shadow-soft), inset 0 1px 0 rgba(255,255,255,0.06);
+            box-shadow: var(--shadow-soft), inset 0 1px 0 rgba(255,255,255,0.05);
             transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
         }
 
         .user-badge:hover {
             transform: translateY(-2px);
             border-color: var(--glass-border-strong);
-            box-shadow: 0 10px 24px rgba(53, 209, 232, 0.16), inset 0 1px 0 rgba(255,255,255,0.08);
+            box-shadow: 0 10px 24px rgba(217, 178, 106, 0.16), inset 0 1px 0 rgba(255,255,255,0.08);
         }
 
         .user-badge-icon {
@@ -336,188 +320,91 @@
             flex-shrink: 0;
         }
 
-        .user-info {
-            display: flex;
-            flex-direction: column;
-            line-height: 1.15;
-        }
+        .user-id { font-size: 10.5px; color: var(--text-primary); font-weight: 600; letter-spacing: 0.2px; }
 
-        .user-name {
-            font-size: 10.5px;
-            font-weight: 600;
-            color: var(--text-primary);
-            max-width: 90px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .user-id {
-            font-size: 8.5px;
-            color: var(--text-tertiary);
-            font-weight: 600;
-            letter-spacing: 0.3px;
-        }
-
-        /* ---------- Info cards ---------- */
-        .info-cards-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .info-card {
-            background: linear-gradient(155deg, rgba(255,255,255,0.055), rgba(255,255,255,0.015));
+        /* ---------- Balance card ---------- */
+        .balance-card {
+            background: linear-gradient(160deg, rgba(217,178,106,0.07), rgba(255,255,255,0.015));
             border: 1px solid var(--glass-border);
-            padding: 13px 14px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: var(--shadow-soft), inset 0 1px 0 rgba(255,255,255,0.05);
-            transform: translateZ(0);
-            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+            border-radius: 20px;
+            padding: 24px 22px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-deep), inset 0 1px 0 rgba(255,255,255,0.06);
         }
 
-        .info-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--glass-border-strong);
-            box-shadow: 0 16px 30px -10px rgba(109, 94, 240, 0.28), inset 0 1px 0 rgba(255,255,255,0.08);
+        .balance-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 0%, rgba(217, 178, 106, 0.18), transparent 60%);
+            pointer-events: none;
         }
 
-        .info-card-icon {
-            width: 34px;
-            height: 34px;
-            flex-shrink: 0;
-            background: var(--info-gradient);
-            border-radius: 10px;
+        .balance-icon-row { display: flex; justify-content: center; margin-bottom: 10px; }
+
+        .balance-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            background: var(--money-gradient);
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 14px;
-            box-shadow: 0 5px 14px rgba(53, 189, 248, 0.32), inset 0 1px 0 rgba(255,255,255,0.2);
+            font-size: 20px;
+            color: #08150f;
+            box-shadow: 0 8px 22px rgba(22, 168, 117, 0.35), inset 0 1px 0 rgba(255,255,255,0.3);
         }
 
-        .info-card:nth-child(2) .info-card-icon {
-            background: var(--gold-gradient);
-            box-shadow: 0 5px 14px rgba(245, 185, 66, 0.32), inset 0 1px 0 rgba(255,255,255,0.2);
-        }
-
-        .info-card-body {
-            display: flex;
-            flex-direction: column;
-            min-width: 0;
-        }
-
-        .info-card-label {
-            font-size: 9px;
+        .balance-label {
+            font-size: 11px;
             color: var(--text-tertiary);
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.4px;
-            margin-bottom: 2px;
+            letter-spacing: 0.6px;
+            margin-bottom: 6px;
+            position: relative;
         }
 
-        .info-card-value {
-            font-size: 14px;
-            font-weight: 700;
+        .balance-value {
             font-family: 'Sora', sans-serif;
-            color: var(--text-primary);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            font-size: 38px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #ffffff 0%, var(--gold-2) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
         }
 
-        /* ---------- Main card ---------- */
-        .main-card {
-            background: linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
+        /* ---------- Form card ---------- */
+        .form-card {
+            background: linear-gradient(160deg, rgba(255,255,255,0.045), rgba(255,255,255,0.012));
             border: 1px solid var(--glass-border);
-            padding: 28px 22px;
+            padding: 26px 22px;
             border-radius: 22px;
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
             box-shadow: var(--shadow-deep), inset 0 1px 0 rgba(255,255,255,0.06);
-            position: relative;
         }
 
-        .pause-notice {
-            display: none;
-            border: 1px solid rgba(247, 107, 122, 0.35);
-            background: linear-gradient(160deg, rgba(247, 107, 122, 0.08), rgba(255,255,255,0.02));
-            border-radius: 18px;
-            padding: 30px 22px;
-            text-align: center;
-        }
-
-        .pause-notice.show {
-            display: block;
-        }
-
-        .pause-notice-icon {
-            width: 58px;
-            height: 58px;
-            background: rgba(247, 107, 122, 0.14);
-            border: 1px solid rgba(247, 107, 122, 0.3);
-            border-radius: 16px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 26px;
-            color: var(--error-color);
-            margin: 0 auto 14px;
-            box-shadow: 0 8px 20px rgba(247, 107, 122, 0.18);
-        }
-
-        .pause-notice-title {
+        .card-title {
             font-family: 'Sora', sans-serif;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 6px;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .pause-notice-text {
-            font-size: 12.5px;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
+        .card-title i { color: var(--gold-2); font-size: 14px; }
 
-        .form-header {
-            margin-bottom: 24px;
-            text-align: center;
-        }
+        .form-group { margin-bottom: 16px; }
 
-        .form-title {
-            font-family: 'Sora', sans-serif;
-            font-size: 22px;
-            font-weight: 800;
-            margin-bottom: 6px;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -0.2px;
-        }
-
-        .form-description {
-            font-size: 12px;
-            color: var(--text-tertiary);
-            font-weight: 500;
-            line-height: 1.5;
-        }
-
-        .form-wrapper {
-            display: none;
-        }
-
-        .form-wrapper.show {
-            display: block;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-label {
+        label {
             display: block;
             font-size: 11px;
             font-weight: 600;
@@ -525,70 +412,47 @@
             margin-bottom: 7px;
             text-transform: uppercase;
             letter-spacing: 0.4px;
-            transition: color 0.2s ease;
         }
 
-        .form-group:focus-within .form-label {
-            color: var(--info-color);
-        }
-
-        .form-input {
+        select, input {
             width: 100%;
             padding: 13px 15px;
-            background: rgba(9, 13, 24, 0.55);
-            border: 1.5px solid rgba(255, 255, 255, 0.09);
+            background: rgba(7, 10, 18, 0.6);
+            border: 1.5px solid rgba(217, 178, 106, 0.14);
             border-radius: 12px;
             color: var(--text-primary);
             font-size: 13.5px;
             font-weight: 500;
             outline: none;
             transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-            box-shadow: inset 0 2px 6px rgba(0,0,0,0.25);
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.3);
+            font-family: 'Poppins', sans-serif;
         }
 
-        .form-input::placeholder {
-            color: var(--text-tertiary);
+        select:focus, input:focus {
+            background: rgba(7, 10, 18, 0.8);
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(217, 178, 106, 0.14), inset 0 2px 6px rgba(0,0,0,0.3);
         }
 
-        .form-input:focus {
-            background: rgba(9, 13, 24, 0.75);
-            border-color: var(--info-color);
-            box-shadow: 0 0 0 4px rgba(53, 209, 232, 0.14), inset 0 2px 6px rgba(0,0,0,0.25);
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%237c8296' stroke-width='1.6' fill='none' fill-rule='evenodd'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            padding-right: 36px;
         }
 
-        .form-input.error {
-            border-color: var(--error-color);
-            background: rgba(247, 107, 122, 0.06);
-        }
+        input::placeholder { color: var(--text-tertiary); }
 
-        .form-input.error:focus {
-            box-shadow: 0 0 0 4px rgba(247, 107, 122, 0.14), inset 0 2px 6px rgba(0,0,0,0.25);
-        }
-
-        .form-error {
-            display: none;
-            font-size: 11px;
-            color: var(--error-color);
-            margin-top: 6px;
-            font-weight: 500;
-        }
-
-        .form-error.show {
-            display: block;
-        }
-
-        .error-icon {
-            display: inline-block;
-            margin-right: 4px;
-        }
-
-        .submit-button {
+        .btn-submit {
             width: 100%;
             padding: 15px 20px;
-            background: var(--primary-gradient);
+            background: var(--money-gradient);
             border: none;
             border-radius: 13px;
-            color: var(--text-primary);
+            color: #06120c;
             font-size: 14px;
             font-weight: 700;
             cursor: pointer;
@@ -599,285 +463,139 @@
             gap: 9px;
             text-transform: uppercase;
             letter-spacing: 0.4px;
-            box-shadow: 0 10px 24px rgba(109, 94, 240, 0.35), inset 0 1px 0 rgba(255,255,255,0.25);
-            margin-top: 6px;
+            box-shadow: 0 10px 24px rgba(22, 168, 117, 0.3), inset 0 1px 0 rgba(255,255,255,0.3);
+            margin-top: 8px;
         }
 
-        .submit-button:hover {
+        .btn-submit:hover {
             transform: translateY(-2px);
-            box-shadow: 0 14px 30px rgba(109, 94, 240, 0.42), inset 0 1px 0 rgba(255,255,255,0.3);
+            box-shadow: 0 14px 30px rgba(22, 168, 117, 0.38), inset 0 1px 0 rgba(255,255,255,0.35);
         }
 
-        .submit-button:active {
-            transform: translateY(0);
-        }
+        .btn-submit:active { transform: translateY(0); }
+        .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-        .submit-button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .button-icon {
-            font-size: 15px;
-            display: inline-flex;
-            align-items: center;
-        }
-
-        .loading-spinner {
-            width: 17px;
-            height: 17px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-top-color: var(--text-primary);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* ---------- Success overlay ---------- */
-        .success-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(8, 11, 20, 0.92);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            z-index: 10000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            overflow: hidden;
-        }
-
-        .success-overlay.show {
-            display: flex;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .confetti-piece {
-            position: absolute;
-            top: 46%;
-            left: 50%;
-            width: 8px;
-            height: 8px;
-            border-radius: 2px;
-            opacity: 0;
-            animation: confettiBurst 1s cubic-bezier(0.25, 0.8, 0.35, 1) forwards;
-        }
-
-        @keyframes confettiBurst {
-            0% { opacity: 1; transform: translate(-50%, -50%) translate(0, 0) rotate(0deg) scale(1); }
-            100% { opacity: 0; transform: translate(-50%, -50%) translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(0.4); }
-        }
-
-        .success-card {
-            background: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.015));
-            border: 1px solid rgba(63, 224, 165, 0.35);
-            padding: 38px 30px;
+        /* ---------- History ---------- */
+        .history-card {
+            background: linear-gradient(160deg, rgba(255,255,255,0.045), rgba(255,255,255,0.012));
+            border: 1px solid var(--glass-border);
+            padding: 22px 20px;
             border-radius: 22px;
-            text-align: center;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            box-shadow: 0 24px 60px rgba(63, 224, 165, 0.16), inset 0 1px 0 rgba(255,255,255,0.06);
-            animation: successPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
-            max-width: 400px;
-            position: relative;
-            z-index: 1;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            box-shadow: var(--shadow-deep), inset 0 1px 0 rgba(255,255,255,0.06);
         }
 
-        @keyframes successPop {
-            0% { transform: scale(0.85); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .success-icon {
-            width: 72px;
-            height: 72px;
-            background: linear-gradient(135deg, var(--success-color), #21b884);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 34px;
-            margin: 0 auto 18px;
-            box-shadow: 0 10px 28px rgba(63, 224, 165, 0.35);
-            animation: iconPulse 0.5s ease-out 0.1s both;
-        }
-
-        @keyframes iconPulse {
-            0% { transform: scale(0.6); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .success-title {
-            font-family: 'Sora', sans-serif;
-            font-size: 21px;
-            font-weight: 800;
-            color: var(--success-color);
-            margin-bottom: 10px;
-            letter-spacing: -0.2px;
-        }
-
-        .success-message {
-            font-size: 13px;
-            color: var(--text-secondary);
-            line-height: 1.6;
-            margin-bottom: 20px;
-            font-weight: 500;
-        }
-
-        .success-details {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(63, 224, 165, 0.2);
-            padding: 14px 16px;
+        .history-item {
+            background: rgba(7, 10, 18, 0.5);
+            border: 1px solid var(--glass-border);
+            border-left: 3px solid var(--warning-color);
             border-radius: 12px;
-            margin-bottom: 20px;
-            text-align: left;
-            font-size: 12px;
+            padding: 13px 14px;
+            margin-bottom: 12px;
+            transition: transform 0.2s ease, border-color 0.2s ease;
         }
 
-        .detail-row {
+        .history-item:last-child { margin-bottom: 0; }
+        .history-item:hover { transform: translateY(-2px); border-color: var(--glass-border-strong); }
+
+        .history-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+        .history-details .method { font-weight: 700; font-size: 13.5px; color: var(--text-primary); font-family: 'Sora', sans-serif; }
+        .history-details .time { font-size: 10.5px; color: var(--text-tertiary); margin-top: 3px; }
+        .history-amount { text-align: right; flex-shrink: 0; }
+        .history-amount .amount { font-weight: 700; font-size: 15px; font-family: 'Sora', sans-serif; color: var(--text-primary); }
+
+        .status {
+            font-size: 9.5px;
+            padding: 3px 8px;
+            border-radius: 999px;
+            text-transform: uppercase;
+            font-weight: 700;
+            display: inline-block;
+            margin-top: 5px;
+            letter-spacing: 0.3px;
+        }
+
+        .status.pending { background: rgba(242, 193, 78, 0.16); color: var(--warning-color); }
+        .status.paid { background: rgba(18, 201, 138, 0.16); color: var(--success-color); }
+        .status.rejected { background: rgba(242, 112, 126, 0.16); color: var(--error-color); }
+
+        .history-user-inputs {
+            font-size: 11.5px;
+            color: var(--text-secondary);
+            background: rgba(255,255,255,0.03);
+            padding: 8px 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+
+        .history-user-inputs strong { color: var(--text-primary); }
+
+        .reject-reason {
+            color: var(--error-color);
+            font-size: 11.5px;
+            background: rgba(242, 112, 126, 0.08);
+            padding: 8px 10px;
+            border-radius: 8px;
+            margin-top: 8px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            gap: 6px;
         }
 
-        .detail-row:last-child {
-            margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom: none;
+        #no-history { color: var(--text-tertiary); font-size: 12.5px; text-align: center; padding: 14px; }
+
+        /* ---------- Compact themed SweetAlert2 popups ---------- */
+        .themed-swal-popup {
+            width: 300px !important;
+            padding: 22px 18px 20px !important;
+            border-radius: 18px !important;
+            border: 1px solid var(--glass-border-strong) !important;
+            box-shadow: var(--shadow-deep) !important;
+            font-family: 'Poppins', sans-serif !important;
         }
 
-        .detail-label {
-            color: var(--text-tertiary);
-            font-weight: 600;
+        .themed-swal-icon { width: 52px !important; height: 52px !important; margin: 0 auto 10px !important; }
+
+        .themed-swal-title {
+            font-family: 'Sora', sans-serif !important;
+            font-size: 16px !important;
+            font-weight: 700 !important;
+            padding: 4px 0 2px !important;
         }
 
-        .detail-value {
-            color: var(--success-color);
-            font-weight: 700;
-            font-family: 'Courier New', monospace;
+        .themed-swal-html {
+            font-size: 12.5px !important;
+            color: var(--text-secondary) !important;
+            line-height: 1.55 !important;
+            padding: 0 !important;
+            margin-top: 4px !important;
         }
 
-        .success-button {
-            width: 100%;
-            padding: 13px 20px;
-            background: linear-gradient(135deg, var(--success-color), #21b884);
-            border: none;
-            border-radius: 11px;
-            color: #06120d;
-            font-size: 13.5px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        .themed-swal-actions { margin-top: 16px !important; }
+
+        .themed-swal-confirm {
+            font-size: 12.5px !important;
+            font-weight: 700 !important;
+            padding: 9px 26px !important;
+            border-radius: 10px !important;
             text-transform: uppercase;
             letter-spacing: 0.4px;
-            box-shadow: 0 8px 20px rgba(63, 224, 165, 0.3);
-        }
-
-        .success-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 26px rgba(63, 224, 165, 0.38);
-        }
-
-        /* ---------- Toast ---------- */
-        .toast-notification {
-            position: fixed;
-            bottom: 26px;
-            left: 20px;
-            right: 20px;
-            max-width: 380px;
-            margin: 0 auto;
-            background: linear-gradient(160deg, rgba(255,255,255,0.07), rgba(20,26,42,0.94));
-            border: 1px solid var(--glass-border-strong);
-            border-radius: 13px;
-            padding: 14px 16px;
-            display: none;
-            align-items: center;
-            gap: 11px;
-            z-index: 9999;
-            box-shadow: var(--shadow-deep);
-        }
-
-        .toast-notification.show {
-            display: flex;
-            animation: slideUpIn 0.3s ease-out;
-        }
-
-        @keyframes slideUpIn {
-            from { opacity: 0; transform: translateY(16px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .toast-icon {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 13px;
-            flex-shrink: 0;
-        }
-
-        .toast-error .toast-icon {
-            background: rgba(247, 107, 122, 0.2);
-            color: var(--error-color);
-        }
-
-        .toast-success .toast-icon {
-            background: rgba(63, 224, 165, 0.2);
-            color: var(--success-color);
-        }
-
-        .toast-warning .toast-icon {
-            background: rgba(245, 185, 66, 0.2);
-            color: var(--warning-color);
-        }
-
-        .toast-text {
-            font-size: 12.5px;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .toast-close {
-            margin-left: auto;
-            cursor: pointer;
-            color: var(--text-tertiary);
-            transition: color 0.2s ease;
-        }
-
-        .toast-close:hover {
-            color: var(--text-primary);
+            box-shadow: 0 8px 18px rgba(22, 168, 117, 0.3) !important;
         }
 
         @media (max-width: 480px) {
-            .main-container { gap: 14px; }
+            .balance-value { font-size: 32px; }
+            .form-card, .history-card, .balance-card { padding: 20px 16px; border-radius: 18px; }
             .logo-text { display: none; }
-            .main-card { padding: 22px 16px; border-radius: 18px; }
-            .form-title { font-size: 19px; }
-            .success-card { padding: 28px 18px; }
-            .info-card { padding: 11px 12px; }
-            .info-card-value { font-size: 13px; }
         }
 
-        /* Turn off heavy 3D + parallax on touch/small devices for buttery scrolling */
         @media (hover: none), (pointer: coarse) {
             html { perspective: none; }
             .depth-plane { display: none; }
-            .floating-orb { filter: blur(34px); }
+            .floating-orb { filter: blur(30px); }
+            .coin-3 { display: none; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -886,18 +604,16 @@
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.001ms !important;
             }
-            .main-container { opacity: 1 !important; transform: none !important; }
+            .page-wrap { opacity: 1 !important; transform: none !important; }
         }
     </style>
 </head>
 <body>
     <div id="page-loader">
         <div class="loader-cube-wrap">
-            <div class="loader-cube">
-                <span></span><span></span><span></span><span></span>
-            </div>
+            <div class="loader-cube"><span></span><span></span><span></span><span></span></div>
         </div>
-        <div class="loader-text">Loading Portal</div>
+        <div class="loader-text">Loading Wallet</div>
     </div>
 
     <div class="background-decoration">
@@ -906,150 +622,112 @@
             <div class="floating-orb orb-1"></div>
             <div class="floating-orb orb-2"></div>
             <div class="floating-orb orb-3"></div>
+
+            <div class="coin3d coin-1"><div class="coin-face front">$</div><div class="coin-face back">$</div></div>
+            <div class="coin3d coin-2"><div class="coin-face front">$</div><div class="coin-face back">$</div></div>
+            <div class="coin3d coin-3"><div class="coin-face front">$</div><div class="coin-face back">$</div></div>
+            <div class="coin3d coin-4"><div class="coin-face front">$</div><div class="coin-face back">$</div></div>
         </div>
     </div>
 
-    <div class="main-container" id="main-container">
+    <div class="page-wrap" id="page-wrap">
         <div class="header-section">
             <div class="logo-brand">
-                <div class="logo-icon">
-                    <i class="fas fa-envelope"></i>
-                </div>
+                <div class="logo-icon"><i class="fas fa-sack-dollar"></i></div>
                 <div class="logo-text">
-                    <div class="logo-title">Task Portal</div>
-                    <div class="logo-subtitle">Verification System</div>
+                    <div class="logo-title">Withdraw Wallet</div>
+                    <div class="logo-subtitle">Earnings Payout</div>
                 </div>
             </div>
-
             <div class="user-badge">
-                <div class="user-badge-icon">
-                    <i class="fas fa-user"></i>
-                </div>
-                <div class="user-info">
-                    <div class="user-name" id="top-username">Loading...</div>
-                    <div class="user-id" id="top-uid">UID: ------</div>
-                </div>
+                <div class="user-badge-icon"><i class="fas fa-user"></i></div>
+                <div class="user-id" id="user-uid">UID: Fetching...</div>
             </div>
         </div>
 
-        <div class="info-cards-grid">
-            <div class="info-card">
-                <div class="info-card-icon">
-                    <i class="fas fa-clock"></i>
-                </div>
-                <div class="info-card-body">
-                    <div class="info-card-label">Verify Time</div>
-                    <div class="info-card-value" id="report-time">Loading...</div>
-                </div>
-            </div>
-
-            <div class="info-card">
-                <div class="info-card-icon">
-                    <i class="fas fa-coins"></i>
-                </div>
-                <div class="info-card-body">
-                    <div class="info-card-label">Task Rate</div>
-                    <div class="info-card-value" id="gmail-price">Loading...</div>
-                </div>
-            </div>
+        <div class="balance-card">
+            <div class="balance-icon-row"><div class="balance-icon"><i class="fas fa-wallet"></i></div></div>
+            <div class="balance-label">Your Available Balance</div>
+            <div class="balance-value" id="user-balance">$0.00</div>
         </div>
 
-        <div class="main-card">
-            <div id="form-wrapper" class="form-wrapper">
-                <div class="form-header">
-                    <div class="form-title">Submit Task Proof</div>
-                    <div class="form-description">Complete the verification process by providing accurate gmail details</div>
+        <div class="form-card">
+            <div class="card-title"><i class="fas fa-money-bill-transfer"></i> Request a Withdrawal</div>
+            <form id="withdrawForm">
+                <div class="form-group">
+                    <label for="method">Select Payout Gateway</label>
+                    <select id="method" required>
+                        <option value="" disabled selected>Loading active methods...</option>
+                    </select>
                 </div>
-
-                <form id="genericDynamicTaskForm">
-                    <div id="dynamic-inputs-area"></div>
-                    <button type="submit" class="submit-button">
-                        <span class="button-icon">
-                            <i class="fas fa-envelope-circle-check"></i>
-                        </span>
-                        <span>Submit Proof</span>
-                    </button>
-                </form>
-            </div>
-
-            <div id="paused-notice" class="pause-notice">
-                <div class="pause-notice-icon">
-                    <i class="fas fa-pause-circle"></i>
+                <div id="dynamic-fields"></div>
+                <div class="form-group">
+                    <label for="amount">Withdrawal Amount ($)</label>
+                    <input type="number" id="amount" step="0.01" min="0.01" placeholder="0.00" required>
                 </div>
-                <div class="pause-notice-title">Service Temporarily Paused</div>
-                <div class="pause-notice-text">Task submissions are currently unavailable. Please try again later or contact support for assistance.</div>
-            </div>
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-paper-plane"></i> Submit Request
+                </button>
+            </form>
         </div>
-    </div>
 
-    <div id="success-overlay" class="success-overlay">
-        <div class="success-card">
-            <div class="success-icon">
-                <i class="fas fa-check"></i>
+        <div class="history-card">
+            <div class="card-title"><i class="fas fa-clock-rotate-left"></i> Withdrawal History</div>
+            <div id="history-container">
+                <p id="no-history">Loading history...</p>
             </div>
-            <div class="success-title">Submission Successful</div>
-            <div class="success-message">Your gmail proof has been submitted successfully and is now pending verification by our moderation team.</div>
-
-            <div class="success-details">
-                <div class="detail-row">
-                    <span class="detail-label">Submission ID:</span>
-                    <span class="detail-value" id="success-submission-id">-----</span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Status:</span>
-                    <span class="detail-value">Pending</span>
-                </div>
-            </div>
-
-            <button class="success-button" onclick="closeSuccessOverlay()">Close</button>
-        </div>
-    </div>
-
-    <div id="toast-notification" class="toast-notification">
-        <div class="toast-icon">
-            <i class="fas fa-info-circle"></i>
-        </div>
-        <div class="toast-text" id="toast-message">Message</div>
-        <div class="toast-close" onclick="closeToast()">
-            <i class="fas fa-times"></i>
         </div>
     </div>
 
     <script>
-        // ==================== Configuration ====================
-        const firebaseConfig = {
-            databaseURL: "https://ranger-shop-default-rtdb.firebaseio.com/"
-        };
-
+        const firebaseConfig = { databaseURL: "https://ranger-shop-default-rtdb.firebaseio.com/" };
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
         const urlParams = new URLSearchParams(window.location.search);
         const telegramId = urlParams.get('id');
+        let currentBalance = 0.00;
+        let methodConfigs = {};
 
+        // Telegram bot notification config
         const BOT_TOKEN = "8968747488:AAFo57k9oohFGLWlqy0NhQmHS5EoSZEtK48";
         let adminChatId = "7955518877";
+
+        // Compact, on-brand SweetAlert2 popups (no oversized default modal)
+        const themedSwal = Swal.mixin({
+            background: '#0d1220',
+            color: '#f6f3ec',
+            confirmButtonColor: '#16a875',
+            backdrop: 'rgba(6, 9, 16, 0.82)',
+            buttonsStyling: true,
+            customClass: {
+                popup: 'themed-swal-popup',
+                icon: 'themed-swal-icon',
+                title: 'themed-swal-title',
+                htmlContainer: 'themed-swal-html',
+                actions: 'themed-swal-actions',
+                confirmButton: 'themed-swal-confirm'
+            }
+        });
 
         // ==================== Page load intro (3D reveal) ====================
         function revealPage() {
             const loader = document.getElementById('page-loader');
-            const container = document.getElementById('main-container');
+            const wrap = document.getElementById('page-wrap');
             loader.classList.add('hide');
-            container.classList.add('reveal');
+            wrap.classList.add('reveal');
             setTimeout(() => { loader.style.display = 'none'; }, 550);
         }
 
-        // Ensure a minimum, pleasant loader duration (feels intentional, not a stall)
         const minLoaderTime = new Promise(resolve => setTimeout(resolve, 900));
         const pageReady = new Promise(resolve => {
             if (document.readyState === 'complete') resolve();
             else window.addEventListener('load', resolve, { once: true });
         });
         Promise.all([minLoaderTime, pageReady]).then(revealPage);
-        // Safety net in case something hangs
         setTimeout(revealPage, 3500);
 
-        // ==================== Subtle parallax (desktop/pointer only, perf-safe) ====================
+        // ==================== Subtle parallax (desktop/pointer only) ====================
         (function initParallax() {
             const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
             if (!canHover) return;
@@ -1059,8 +737,8 @@
             let targetX = 0, targetY = 0;
 
             window.addEventListener('pointermove', (e) => {
-                targetX = (e.clientX / window.innerWidth - 0.5) * 14;
-                targetY = (e.clientY / window.innerHeight - 0.5) * 14;
+                targetX = (e.clientX / window.innerWidth - 0.5) * 12;
+                targetY = (e.clientY / window.innerHeight - 0.5) * 12;
 
                 if (!ticking) {
                     ticking = true;
@@ -1072,63 +750,7 @@
             }, { passive: true });
         })();
 
-        // ==================== Utility Functions ====================
-        function showToast(message, type = 'info') {
-            const toast = document.getElementById('toast-notification');
-            const toastMessage = document.getElementById('toast-message');
-            const toastIcon = toast.querySelector('.toast-icon i');
-
-            toast.className = `toast-notification toast-${type} show`;
-            toastMessage.textContent = message;
-
-            const iconMap = {
-                'success': 'fas fa-check-circle',
-                'error': 'fas fa-exclamation-circle',
-                'warning': 'fas fa-exclamation-triangle',
-                'info': 'fas fa-info-circle'
-            };
-
-            toastIcon.className = iconMap[type] || iconMap['info'];
-
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 4000);
-        }
-
-        function closeToast() {
-            document.getElementById('toast-notification').classList.remove('show');
-        }
-
-        function showFieldError(inputElement, message) {
-            const wrapper = inputElement.closest('.form-group');
-            if (!wrapper) return;
-
-            inputElement.classList.add('error');
-
-            let errorDiv = wrapper.querySelector('.form-error');
-            if (!errorDiv) {
-                errorDiv = document.createElement('div');
-                errorDiv.className = 'form-error';
-                wrapper.appendChild(errorDiv);
-            }
-
-            errorDiv.innerHTML = `<span class="error-icon"><i class="fas fa-times-circle"></i></span>${message}`;
-            errorDiv.classList.add('show');
-        }
-
-        function clearFieldError(inputElement) {
-            const wrapper = inputElement.closest('.form-group');
-            if (!wrapper) return;
-
-            inputElement.classList.remove('error');
-
-            const errorDiv = wrapper.querySelector('.form-error');
-            if (errorDiv) {
-                errorDiv.classList.remove('show');
-            }
-        }
-
-        // Pleasant ascending chime with soft reverb-like tail for the success moment
+        // ==================== Success sound + confetti ====================
         function playSuccessSound() {
             const AudioCtx = window.AudioContext || window.webkitAudioContext;
             const audioContext = new AudioCtx();
@@ -1165,252 +787,177 @@
             });
         }
 
-        // Small, performant confetti burst (CSS-driven, ~14 pieces max)
-        function launchConfetti() {
-            const overlay = document.getElementById('success-overlay');
-            const colors = ['#6d5ef0', '#ec5fa0', '#35d1e8', '#f5b942', '#3fe0a5'];
-            const pieceCount = 14;
-
-            const frag = document.createDocumentFragment();
-            const pieces = [];
+        function launchMoneyConfetti() {
+            const colors = ['#16a875', '#d9b26a', '#f2d795', '#35d1e8', '#12c98a'];
+            const pieceCount = 16;
+            const wrap = document.createElement('div');
+            wrap.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:20050;overflow:hidden;';
+            document.body.appendChild(wrap);
 
             for (let i = 0; i < pieceCount; i++) {
                 const piece = document.createElement('div');
-                piece.className = 'confetti-piece';
                 const angle = (Math.PI * 2 * i) / pieceCount + Math.random() * 0.4;
-                const distance = 90 + Math.random() * 70;
+                const distance = 100 + Math.random() * 80;
                 const tx = Math.cos(angle) * distance;
-                const ty = Math.sin(angle) * distance - 40;
+                const ty = Math.sin(angle) * distance - 60;
                 const rot = (Math.random() > 0.5 ? 1 : -1) * (180 + Math.random() * 260);
 
-                piece.style.setProperty('--tx', `${tx}px`);
-                piece.style.setProperty('--ty', `${ty}px`);
-                piece.style.setProperty('--rot', `${rot}deg`);
-                piece.style.background = colors[i % colors.length];
-                piece.style.animationDelay = `${Math.random() * 0.08}s`;
-
-                frag.appendChild(piece);
-                pieces.push(piece);
+                piece.style.cssText = `
+                    position:absolute; top:50%; left:50%; width:8px; height:8px; border-radius:2px;
+                    background:${colors[i % colors.length]}; opacity:0;
+                    animation: moneyConfettiBurst 1s cubic-bezier(0.25,0.8,0.35,1) forwards;
+                    animation-delay:${Math.random() * 0.08}s;
+                    --tx:${tx}px; --ty:${ty}px; --rot:${rot}deg;
+                `;
+                wrap.appendChild(piece);
             }
-
-            overlay.appendChild(frag);
-            setTimeout(() => pieces.forEach(p => p.remove()), 1300);
+            setTimeout(() => wrap.remove(), 1400);
         }
 
-        function closeSuccessOverlay() {
-            const overlay = document.getElementById('success-overlay');
-            overlay.classList.remove('show');
-            document.getElementById('genericDynamicTaskForm').reset();
-        }
+        const confettiStyle = document.createElement('style');
+        confettiStyle.textContent = `@keyframes moneyConfettiBurst {
+            0% { opacity: 1; transform: translate(-50%, -50%) translate(0,0) rotate(0deg) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -50%) translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(0.4); }
+        }`;
+        document.head.appendChild(confettiStyle);
 
-        function sendTelegramMessage(chatId, textMessage) {
+        function sendTelegramTelegramMsg(chatId, textMessage) {
             if (!BOT_TOKEN || !chatId) return;
-
             fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: chatId,
-                    text: textMessage,
-                    parse_mode: "HTML"
-                })
-            }).catch(e => console.error('Telegram API Error:', e));
+                body: JSON.stringify({ chat_id: chatId, text: textMessage, parse_mode: "HTML" })
+            }).catch(e => console.log(e));
         }
 
-        // ==================== Firebase Initialization ====================
-        if (telegramId) {
-            document.getElementById('top-uid').innerText = "UID: " + telegramId;
+        database.ref('admin_settings/withdraw_methods').on('value', (snapshot) => {
+            const methods = snapshot.val();
+            const selectElement = document.getElementById('method');
+            selectElement.innerHTML = '<option value="" disabled selected>Choose Method...</option>';
+            if (methods) {
+                methodConfigs = methods;
+                Object.keys(methods).forEach(key => {
+                    const m = methods[key];
+                    if (m.status === true || m.status === "Active") {
+                        const opt = document.createElement('option');
+                        opt.value = key;
+                        opt.innerText = (m.name || key) + (m.min_withdraw ? ` (Min: $${parseFloat(m.min_withdraw).toFixed(2)})` : " (No Min)");
+                        selectElement.appendChild(opt);
+                    }
+                });
+            }
+        });
 
-            database.ref('users/' + telegramId + '/username').on('value', (snapshot) => {
-                const username = snapshot.val() || "User";
-                document.getElementById('top-username').innerText = username;
+        // Load admin chat id
+        database.ref('admin_settings/admin_chat_id').on('value', (snap) => { if (snap.val()) adminChatId = snap.val(); });
+
+        document.getElementById('method').addEventListener('change', function() {
+            const fieldsContainer = document.getElementById('dynamic-fields');
+            fieldsContainer.innerHTML = '';
+            const config = methodConfigs[this.value];
+            if (config && config.fields && Array.isArray(config.fields)) {
+                config.fields.forEach((field) => {
+                    const group = document.createElement('div');
+                    group.className = 'form-group';
+                    const label = document.createElement('label'); label.innerText = field.label;
+                    const input = document.createElement('input'); input.type = "text"; input.className = "custom-user-payout-input"; input.dataset.label = field.label; input.placeholder = `Enter ${field.label}...`; input.required = true;
+                    group.appendChild(label); group.appendChild(input);
+                    fieldsContainer.appendChild(group);
+                });
+            }
+        });
+
+        if (telegramId) {
+            document.getElementById('user-uid').innerText = "UID: " + telegramId;
+            database.ref('users/' + telegramId + '/balance').on('value', (snapshot) => {
+                currentBalance = snapshot.val() ? parseFloat(snapshot.val()) : 0.00;
+                document.getElementById('user-balance').innerText = "$" + currentBalance.toFixed(2);
+            });
+
+            database.ref('users/' + telegramId + '/withdraw_history').on('value', (snapshot) => {
+                const historyContainer = document.getElementById('history-container');
+                historyContainer.innerHTML = ''; const data = snapshot.val();
+                if (data) {
+                    Object.keys(data).reverse().forEach(key => {
+                        const item = data[key];
+                        let inputsHtml = '<div class="history-user-inputs">';
+                        if (item.account_details) { Object.keys(item.account_details).forEach(l => { inputsHtml += `<div><strong>${l}:</strong> ${item.account_details[l]}</div>`; }); }
+                        inputsHtml += '</div>';
+                        let reasonHtml = (item.status === 'Rejected' && item.reject_reason) ? `<div class="reject-reason"><i class="fa-solid fa-circle-exclamation"></i><span>Reason: ${item.reject_reason}</span></div>` : '';
+                        historyContainer.innerHTML += `<div class="history-item" style="border-left-color: ${item.status === 'Paid' ? '#12c98a' : item.status === 'Rejected' ? '#f2707e' : '#f2c14e'}"><div class="history-top"><div class="history-details"><div class="method">${item.method_name}</div><div class="time">${item.time}</div></div><div class="history-amount"><div class="amount">$${parseFloat(item.amount).toFixed(2)}</div><span class="status ${item.status.toLowerCase()}">${item.status}</span></div></div>${inputsHtml}${reasonHtml}</div>`;
+                    });
+                } else {
+                    historyContainer.innerHTML = '<p id="no-history">No history records.</p>';
+                }
             });
         } else {
-            showToast('User ID not found. Please check the URL.', 'error');
+            themedSwal.fire({ icon: 'error', title: 'Error', text: 'Telegram ID not found.' });
         }
 
-        // ==================== Admin Settings Listener ====================
-        database.ref('admin_settings').on('value', (snapshot) => {
-            const settings = snapshot.val();
-
-            if (settings) {
-                document.getElementById('report-time').innerText = settings.report_time || "10 Minutes";
-                document.getElementById('gmail-price').innerText = settings.gmail_price || "0.00";
-
-                if (settings.admin_chat_id) {
-                    adminChatId = settings.admin_chat_id;
-                }
-
-                const formWrapper = document.getElementById('form-wrapper');
-                const pauseNotice = document.getElementById('paused-notice');
-
-                if (settings.gmail_submission_status === true) {
-                    formWrapper.classList.add('show');
-                    pauseNotice.classList.remove('show');
-                } else {
-                    formWrapper.classList.remove('show');
-                    pauseNotice.classList.add('show');
-                }
-            }
-        });
-
-        // ==================== Dynamic Form Fields ====================
-        database.ref('admin_settings/gmail_custom_fields').on('value', (snapshot) => {
-            const fields = snapshot.val();
-            const inputsArea = document.getElementById('dynamic-inputs-area');
-            inputsArea.innerHTML = '';
-
-            if (fields && Array.isArray(fields)) {
-                fields.forEach((field, index) => {
-                    const group = document.createElement('div');
-                    group.className = 'form-group';
-
-                    const label = document.createElement('label');
-                    label.className = 'form-label';
-                    label.innerText = field.label;
-
-                    const input = document.createElement('input');
-                    input.type = "text";
-                    input.className = "form-input portal-dynamic-gmail-input";
-                    input.dataset.label = field.label;
-                    input.placeholder = `Enter ${field.label}...`;
-                    input.required = true;
-
-                    input.addEventListener('focus', function() {
-                        clearFieldError(this);
-                    });
-
-                    group.appendChild(label);
-                    group.appendChild(input);
-                    inputsArea.appendChild(group);
-                });
-            } else {
-                for (let i = 1; i <= 2; i++) {
-                    const group = document.createElement('div');
-                    group.className = 'form-group';
-
-                    const label = document.createElement('label');
-                    label.className = 'form-label';
-                    label.innerText = `Data Field ${i}`;
-
-                    const input = document.createElement('input');
-                    input.type = "text";
-                    input.className = "form-input portal-dynamic-gmail-input";
-                    input.dataset.label = `Data Field ${i}`;
-                    input.placeholder = "Enter required details...";
-                    input.required = true;
-
-                    input.addEventListener('focus', function() {
-                        clearFieldError(this);
-                    });
-
-                    group.appendChild(label);
-                    group.appendChild(input);
-                    inputsArea.appendChild(group);
-                }
-            }
-        });
-
-        // ==================== Form Submission ====================
-        document.getElementById('genericDynamicTaskForm').addEventListener('submit', function(e) {
+        document.getElementById('withdrawForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            if (!telegramId) { themedSwal.fire({ icon: 'error', title: 'Error', text: 'Telegram ID is required.' }); return; }
 
-            if (!telegramId) {
-                showToast('User ID not found. Please refresh the page.', 'error');
-                return;
-            }
+            const methodKey = document.getElementById('method').value;
+            const targetMethodConfig = methodConfigs[methodKey];
+            if (!targetMethodConfig) { themedSwal.fire({ icon: 'error', title: 'Error', text: 'Please select a payout method.' }); return; }
 
-            // Validate all inputs
-            const userInputs = document.querySelectorAll('.portal-dynamic-gmail-input');
-            let hasErrors = false;
-
-            userInputs.forEach(input => {
-                const value = input.value.trim();
-                if (!value) {
-                    showFieldError(input, 'This field is required');
-                    hasErrors = true;
-                }
-            });
-
-            if (hasErrors) {
-                showToast('Please fill in all required fields', 'error');
-                return;
-            }
-
-            // Disable submit button and show loading state
-            const submitButton = this.querySelector('.submit-button');
-            const originalContent = submitButton.innerHTML;
-            submitButton.disabled = true;
-            submitButton.innerHTML = '<span class="loading-spinner"></span><span>Submitting...</span>';
-
-            // Prepare payload
-            const gmailDataPayload = {};
-            let initialInputSummary = "New Proof Data";
-
-            userInputs.forEach((input, idx) => {
-                gmailDataPayload[input.dataset.label] = input.value.trim();
-                if (idx === 0) initialInputSummary = input.value.trim();
-            });
-
+            const methodName = targetMethodConfig.name || methodKey;
+            const minWithdrawLimit = targetMethodConfig.min_withdraw ? parseFloat(targetMethodConfig.min_withdraw) : 0.00;
+            const amount = parseFloat(document.getElementById('amount').value);
             const timestamp = new Date().toLocaleString();
-            const submissionId = 'SUB' + Math.floor(100000 + Math.random() * 900000);
-            const payload = {
-                id: submissionId,
-                submitted_by: telegramId,
-                account_details: gmailDataPayload,
-                status: "Pending",
-                reject_reason: "",
-                time: timestamp
-            };
 
-            // Submit to Firebase
-            Promise.all([
-                database.ref('users/' + telegramId + '/submitted_gmails/' + submissionId).set(payload),
-                database.ref('admin_pending_gmails/' + submissionId).set(payload)
-            ]).then(() => {
-                // Update stats
-                database.ref('users/' + telegramId + '/stats/total_submitted').transaction(c => (c || 0) + 1);
-                database.ref('users/' + telegramId + '/stats/pending').transaction(c => (c || 0) + 1);
+            if (amount < minWithdrawLimit || amount > currentBalance) { themedSwal.fire({ icon: 'error', title: 'Error', text: 'Invalid amount or insufficient balance.' }); return; }
 
-                // Send notifications
-                const userMsg = `Task Submission Success!\n\nTask ID: ${submissionId}\nDetail: ${initialInputSummary}\nStatus: Pending\n\nPlease wait for moderation team to verify and process your submission.`;
-                sendTelegramMessage(telegramId, userMsg);
-
-                const adminMsg = `New Verification Request!\n\nTask ID: ${submissionId}\nUser UID: ${telegramId}\nProof Info: ${initialInputSummary}\n\nPlease review in the moderation panel.`;
-                sendTelegramMessage(adminChatId, adminMsg);
-
-                // Show success state
-                document.getElementById('success-submission-id').innerText = submissionId;
-                const overlay = document.getElementById('success-overlay');
-                overlay.classList.add('show');
-                playSuccessSound();
-                launchConfetti();
-
-                // Reset button
-                submitButton.disabled = false;
-                submitButton.innerHTML = originalContent;
-
-                // Reset form
-                this.reset();
-
-                showToast('Task submitted successfully! Check your messages for confirmation.', 'success');
-            }).catch(error => {
-                console.error('Submission error:', error);
-                showToast('Submission failed. Please try again.', 'error');
-
-                submitButton.disabled = false;
-                submitButton.innerHTML = originalContent;
+            const accountDetails = {};
+            const customInputs = document.querySelectorAll('.custom-user-payout-input');
+            let primaryWalletNum = "";
+            customInputs.forEach((input, i) => {
+                accountDetails[input.dataset.label] = input.value.trim();
+                if (i === 0) primaryWalletNum = input.value.trim();
             });
-        });
 
-        // ==================== Real-time Validation ====================
-        document.addEventListener('input', function(e) {
-            if (e.target.classList.contains('portal-dynamic-gmail-input')) {
-                if (e.target.value.trim()) {
-                    clearFieldError(e.target);
-                }
-            }
+            const withdrawId = 'WID' + Math.floor(100000 + Math.random() * 900000);
+            const payload = { id: withdrawId, user_id: telegramId, method_key: methodKey, method_name: methodName, account_details: accountDetails, amount: amount, status: "Pending", reject_reason: "", time: timestamp };
+
+            const submitBtn = this.querySelector('.btn-submit');
+            const originalBtnContent = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+
+            database.ref('users/' + telegramId + '/balance').set(currentBalance - amount).then(() => {
+                database.ref('users/' + telegramId + '/withdraw_history/' + withdrawId).set(payload);
+                database.ref('admin_withdraw_requests/' + withdrawId).set(payload);
+
+                // Notify user: withdrawal pending
+                const userMsg = `<b>Withdrawal Request Received</b>\n\nWithdraw ID: ${withdrawId}\nMethod: ${methodName}\nAmount: $${amount.toFixed(2)}\nStatus: Pending\n\nOur team will review and process your payment shortly. You'll get a notification once it's completed.`;
+                sendTelegramTelegramMsg(telegramId, userMsg);
+
+                // Notify admin: new withdrawal request
+                const adminMsg = `<b>New Withdrawal Request</b>\n\nWithdraw ID: ${withdrawId}\nMethod: ${methodName}\nAmount: $${amount.toFixed(2)}\nUser UID: ${telegramId}\nAccount: ${primaryWalletNum}\n\nPlease review and process this payment in the admin panel.`;
+                sendTelegramTelegramMsg(adminChatId, adminMsg);
+
+                playSuccessSound();
+                launchMoneyConfetti();
+
+                themedSwal.fire({
+                    icon: 'success',
+                    title: 'Request Submitted',
+                    html: `Your withdrawal request has been submitted.<br><b style="color:#12c98a">ID: ${withdrawId}</b>`,
+                });
+
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnContent;
+
+                document.getElementById('withdrawForm').reset();
+                document.getElementById('dynamic-fields').innerHTML = '';
+            }).catch((error) => {
+                console.error(error);
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnContent;
+                themedSwal.fire({ icon: 'error', title: 'Error', text: 'Failed to submit request. Please try again.' });
+            });
         });
     </script>
 </body>
-    </html>
+</html>
