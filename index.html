@@ -16,33 +16,37 @@
         }
 
         :root {
-            --bg-primary: #0a0a0f;
-            --bg-secondary: #12121a;
-            --bg-card: #1a1a24;
-            --bg-input: #0d0d14;
+            --bg-primary: #0f0f14;
+            --bg-secondary: #16161d;
+            --bg-card: #1c1c26;
+            --bg-card-hover: #22222e;
+            --bg-input: #12121a;
             
-            --accent-primary: #6c5ce7;
-            --accent-secondary: #a29bfe;
-            --accent-gradient: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+            --accent-1: #00d4aa;
+            --accent-2: #00f5c4;
+            --accent-3: #7c3aed;
+            --accent-gradient: linear-gradient(135deg, #00d4aa 0%, #00f5c4 50%, #00d4aa 100%);
+            --accent-gradient-2: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+            --card-gradient: linear-gradient(145deg, rgba(0, 212, 170, 0.08) 0%, rgba(124, 58, 237, 0.05) 100%);
             
-            --success: #00d26a;
-            --success-bg: rgba(0, 210, 106, 0.1);
-            --warning: #ffc107;
-            --warning-bg: rgba(255, 193, 7, 0.1);
-            --error: #ff6b6b;
-            --error-bg: rgba(255, 107, 107, 0.1);
+            --success: #00d4aa;
+            --success-bg: rgba(0, 212, 170, 0.12);
+            --warning: #f59e0b;
+            --warning-bg: rgba(245, 158, 11, 0.12);
+            --error: #ef4444;
+            --error-bg: rgba(239, 68, 68, 0.12);
             
             --text-primary: #ffffff;
-            --text-secondary: #8b8b9e;
-            --text-tertiary: #5a5a6e;
+            --text-secondary: #a1a1aa;
+            --text-tertiary: #71717a;
             
             --border-color: rgba(255, 255, 255, 0.06);
-            --border-active: rgba(108, 92, 231, 0.5);
+            --border-glow: rgba(0, 212, 170, 0.3);
             
-            --radius-sm: 10px;
-            --radius-md: 14px;
+            --radius-sm: 12px;
+            --radius-md: 16px;
             --radius-lg: 20px;
-            --radius-xl: 28px;
+            --radius-xl: 24px;
         }
 
         html, body {
@@ -54,17 +58,14 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Subtle background gradient */
         body::before {
             content: '';
             position: fixed;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: 
-                radial-gradient(circle at 20% 20%, rgba(108, 92, 231, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(162, 155, 254, 0.05) 0%, transparent 40%);
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 400px;
+            background: radial-gradient(ellipse at 50% 0%, rgba(0, 212, 170, 0.12) 0%, transparent 70%);
             pointer-events: none;
             z-index: 0;
         }
@@ -74,7 +75,7 @@
             z-index: 1;
             max-width: 100%;
             min-height: 100vh;
-            padding: 0 0 100px;
+            padding-bottom: 100px;
         }
 
         /* ========== Header ========== */
@@ -82,17 +83,18 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(10, 10, 15, 0.85);
+            background: rgba(15, 15, 20, 0.9);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-color);
-            padding: 14px 20px;
+            padding: 12px 16px;
         }
 
         .header-content {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            max-width: 480px;
+            margin: 0 auto;
         }
 
         .header-left {
@@ -102,8 +104,8 @@
         }
 
         .back-btn {
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             border: none;
             background: var(--bg-card);
             border-radius: var(--radius-sm);
@@ -112,11 +114,11 @@
             justify-content: center;
             cursor: pointer;
             transition: all 0.2s ease;
+            border: 1px solid var(--border-color);
         }
 
         .back-btn:active {
             transform: scale(0.95);
-            background: var(--bg-secondary);
         }
 
         .back-btn svg {
@@ -126,9 +128,12 @@
         }
 
         .header-title {
-            font-size: 17px;
+            font-size: 18px;
             font-weight: 700;
-            letter-spacing: -0.3px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .user-chip {
@@ -136,14 +141,14 @@
             align-items: center;
             gap: 8px;
             background: var(--bg-card);
-            padding: 6px 12px 6px 8px;
-            border-radius: 20px;
+            padding: 6px 12px 6px 6px;
+            border-radius: 24px;
             border: 1px solid var(--border-color);
         }
 
         .user-avatar {
-            width: 26px;
-            height: 26px;
+            width: 28px;
+            height: 28px;
             background: var(--accent-gradient);
             border-radius: 50%;
             display: flex;
@@ -154,7 +159,7 @@
         .user-avatar svg {
             width: 14px;
             height: 14px;
-            fill: white;
+            fill: #0f0f14;
         }
 
         .user-id {
@@ -163,15 +168,20 @@
             color: var(--text-secondary);
         }
 
-        /* ========== Balance Card ========== */
-        .balance-section {
-            padding: 24px 20px;
+        /* ========== Main Content ========== */
+        .main-content {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 16px;
         }
 
+        /* ========== Balance Card ========== */
         .balance-card {
-            background: var(--accent-gradient);
+            background: var(--bg-card);
             border-radius: var(--radius-xl);
-            padding: 28px 24px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border-color);
             position: relative;
             overflow: hidden;
         }
@@ -179,76 +189,141 @@
         .balance-card::before {
             content: '';
             position: absolute;
-            top: -50%;
-            right: -30%;
-            width: 200px;
-            height: 200px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--card-gradient);
+            pointer-events: none;
         }
 
-        .balance-card::after {
-            content: '';
-            position: absolute;
-            bottom: -60%;
-            left: -20%;
-            width: 180px;
-            height: 180px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 50%;
-        }
-
-        .balance-header {
+        .balance-top {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 16px;
+            justify-content: space-between;
+            margin-bottom: 20px;
             position: relative;
-            z-index: 1;
         }
 
-        .balance-icon {
-            width: 42px;
-            height: 42px;
-            background: rgba(255, 255, 255, 0.2);
+        .balance-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .balance-icon-wrap {
+            width: 48px;
+            height: 48px;
+            background: var(--accent-gradient);
             border-radius: var(--radius-md);
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 8px 24px rgba(0, 212, 170, 0.25);
         }
 
-        .balance-icon svg {
-            width: 22px;
-            height: 22px;
-            fill: white;
+        .balance-icon-wrap svg {
+            width: 24px;
+            height: 24px;
+            fill: #0f0f14;
         }
 
-        .balance-label {
-            font-size: 13px;
-            font-weight: 500;
-            color: rgba(255, 255, 255, 0.8);
+        .balance-text h3 {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
         }
 
         .balance-amount {
-            font-size: 42px;
+            font-size: 32px;
             font-weight: 800;
+            color: var(--text-primary);
             letter-spacing: -1px;
-            color: white;
-            position: relative;
-            z-index: 1;
+            line-height: 1;
         }
 
         .balance-amount span {
-            font-size: 24px;
+            font-size: 20px;
+            color: var(--accent-1);
+        }
+
+        .balance-badge {
+            background: var(--success-bg);
+            padding: 6px 12px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .balance-badge svg {
+            width: 14px;
+            height: 14px;
+            fill: var(--success);
+        }
+
+        .balance-badge span {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--success);
+            text-transform: uppercase;
+        }
+
+        /* Stats Row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            position: relative;
+        }
+
+        .stat-item {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: var(--radius-md);
+            padding: 14px 12px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+        }
+
+        .stat-icon svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .stat-icon.green svg { fill: var(--success); }
+        .stat-icon.yellow svg { fill: var(--warning); }
+        .stat-icon.purple svg { fill: var(--accent-3); }
+
+        .stat-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .stat-label {
+            font-size: 10px;
             font-weight: 600;
-            opacity: 0.9;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
 
-        /* ========== Form Section ========== */
-        .form-section {
-            padding: 0 20px;
-        }
-
+        /* ========== Section Card ========== */
         .section-card {
             background: var(--bg-card);
             border-radius: var(--radius-lg);
@@ -260,33 +335,40 @@
         .section-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 18px;
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
         .section-icon {
-            width: 36px;
-            height: 36px;
-            background: var(--bg-secondary);
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, rgba(0, 212, 170, 0.15) 0%, rgba(124, 58, 237, 0.1) 100%);
             border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
             justify-content: center;
+            border: 1px solid rgba(0, 212, 170, 0.2);
         }
 
         .section-icon svg {
-            width: 18px;
-            height: 18px;
-            fill: var(--accent-primary);
+            width: 20px;
+            height: 20px;
+            fill: var(--accent-1);
         }
 
-        .section-title {
+        .section-title-wrap h3 {
             font-size: 15px;
             font-weight: 700;
             color: var(--text-primary);
+            margin-bottom: 2px;
         }
 
-        /* Form Elements */
+        .section-title-wrap p {
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
+        /* ========== Form Elements ========== */
         .form-group {
             margin-bottom: 16px;
         }
@@ -296,13 +378,21 @@
         }
 
         .form-label {
-            display: block;
-            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .form-label span {
+            font-size: 13px;
             font-weight: 600;
             color: var(--text-secondary);
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        }
+
+        .form-label small {
+            font-size: 11px;
+            color: var(--text-tertiary);
         }
 
         .input-wrapper {
@@ -312,7 +402,7 @@
         .form-input,
         .form-select {
             width: 100%;
-            padding: 14px 16px;
+            padding: 16px;
             background: var(--bg-input);
             border: 2px solid var(--border-color);
             border-radius: var(--radius-md);
@@ -326,8 +416,8 @@
 
         .form-input:focus,
         .form-select:focus {
-            border-color: var(--accent-primary);
-            background: var(--bg-secondary);
+            border-color: var(--accent-1);
+            box-shadow: 0 0 0 4px rgba(0, 212, 170, 0.1);
         }
 
         .form-input::placeholder {
@@ -337,7 +427,7 @@
         .form-select {
             appearance: none;
             cursor: pointer;
-            padding-right: 44px;
+            padding-right: 48px;
         }
 
         .select-arrow {
@@ -346,122 +436,53 @@
             top: 50%;
             transform: translateY(-50%);
             pointer-events: none;
+            width: 24px;
+            height: 24px;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .select-arrow svg {
-            width: 18px;
-            height: 18px;
+            width: 14px;
+            height: 14px;
             fill: var(--text-tertiary);
         }
 
-        /* Input with icon */
-        .input-icon-wrapper {
+        /* Amount Input Special */
+        .amount-input-wrap {
             position: relative;
         }
 
-        .input-icon-wrapper .form-input {
-            padding-left: 48px;
+        .amount-input-wrap .form-input {
+            padding-left: 44px;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
-        .input-icon {
+        .currency-symbol {
             position: absolute;
             left: 16px;
             top: 50%;
             transform: translateY(-50%);
-        }
-
-        .input-icon svg {
-            width: 20px;
-            height: 20px;
-            fill: var(--text-tertiary);
-        }
-
-        /* Inline Error */
-        .input-error {
-            border-color: var(--error) !important;
-        }
-
-        .error-message {
-            display: none;
-            align-items: center;
-            gap: 6px;
-            margin-top: 8px;
-            padding: 10px 12px;
-            background: var(--error-bg);
-            border-radius: var(--radius-sm);
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--error);
-        }
-
-        .error-message.show {
-            display: flex;
-        }
-
-        .error-message svg {
-            width: 16px;
-            height: 16px;
-            fill: var(--error);
-            flex-shrink: 0;
-        }
-
-        /* Success Message */
-        .success-message {
-            display: none;
-            align-items: center;
-            gap: 10px;
-            padding: 16px;
-            background: var(--success-bg);
-            border-radius: var(--radius-md);
-            margin-bottom: 16px;
-            border: 1px solid rgba(0, 210, 106, 0.2);
-        }
-
-        .success-message.show {
-            display: flex;
-            animation: slideDown 0.3s ease;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .success-message svg {
-            width: 24px;
-            height: 24px;
-            fill: var(--success);
-            flex-shrink: 0;
-        }
-
-        .success-content h4 {
-            font-size: 14px;
+            font-size: 24px;
             font-weight: 700;
-            color: var(--success);
-            margin-bottom: 2px;
+            color: var(--accent-1);
         }
 
-        .success-content p {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        /* Quick Amount Buttons */
+        /* Quick Amounts */
         .quick-amounts {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            display: flex;
             gap: 8px;
             margin-top: 12px;
         }
 
         .quick-btn {
-            padding: 10px;
+            flex: 1;
+            padding: 12px 8px;
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-sm);
@@ -478,115 +499,261 @@
         }
 
         .quick-btn.active {
-            background: rgba(108, 92, 231, 0.15);
-            border-color: var(--accent-primary);
-            color: var(--accent-primary);
+            background: rgba(0, 212, 170, 0.12);
+            border-color: var(--accent-1);
+            color: var(--accent-1);
         }
 
-        /* Submit Button */
-        .submit-section {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 16px 20px;
-            background: rgba(10, 10, 15, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-top: 1px solid var(--border-color);
-            z-index: 100;
+        /* Error Message */
+        .input-error {
+            border-color: var(--error) !important;
         }
 
-        .submit-btn {
-            width: 100%;
-            padding: 16px 24px;
-            background: var(--accent-gradient);
-            border: none;
-            border-radius: var(--radius-md);
-            color: white;
-            font-size: 15px;
-            font-weight: 700;
-            font-family: inherit;
-            cursor: pointer;
-            display: flex;
+        .error-message {
+            display: none;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.2s ease;
+            gap: 8px;
+            margin-top: 10px;
+            padding: 12px 14px;
+            background: var(--error-bg);
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .error-message.show {
+            display: flex;
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        .error-message svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--error);
+            flex-shrink: 0;
+        }
+
+        .error-message span {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--error);
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 212, 170, 0.3);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 16px;
             position: relative;
             overflow: hidden;
         }
 
-        .submit-btn:active {
-            transform: scale(0.98);
+        .success-message::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 212, 170, 0.1) 0%, transparent 60%);
+            pointer-events: none;
         }
 
-        .submit-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
+        .success-message.show {
+            display: block;
+            animation: slideDown 0.4s ease;
         }
 
-        .submit-btn svg {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-16px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .submit-btn .spinner {
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-top-color: white;
+        .success-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            position: relative;
+        }
+
+        .success-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--accent-gradient);
             border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .success-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: #0f0f14;
+        }
+
+        .success-text h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .success-text p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .success-text .withdraw-id {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 6px 12px;
+            background: rgba(0, 212, 170, 0.1);
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--accent-1);
+            font-family: monospace;
         }
 
         /* ========== History Section ========== */
-        .history-section {
-            padding: 0 20px 20px;
-        }
-
-        .history-tabs {
+        .history-header {
             display: flex;
-            gap: 8px;
+            align-items: center;
+            justify-content: space-between;
             margin-bottom: 16px;
         }
 
-        .history-tab {
-            flex: 1;
-            padding: 10px;
+        .history-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .history-title-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.15) 0%, rgba(0, 212, 170, 0.1) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .history-title-icon svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--accent-3);
+        }
+
+        .history-title h3 {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .filter-dropdown {
+            position: relative;
+        }
+
+        .filter-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
+            border-radius: 20px;
             color: var(--text-secondary);
             font-size: 12px;
             font-weight: 600;
             font-family: inherit;
             cursor: pointer;
             transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
         }
 
-        .history-tab.active {
-            background: var(--accent-gradient);
-            border-color: transparent;
-            color: white;
-        }
-
-        .history-tab svg {
+        .filter-btn svg {
             width: 14px;
             height: 14px;
             fill: currentColor;
         }
 
+        .filter-btn:active {
+            transform: scale(0.96);
+        }
+
+        .filter-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 8px;
+            min-width: 140px;
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.2s ease;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+        }
+
+        .filter-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .filter-option:hover {
+            background: var(--bg-secondary);
+        }
+
+        .filter-option.active {
+            background: rgba(0, 212, 170, 0.1);
+        }
+
+        .filter-option.active span {
+            color: var(--accent-1);
+        }
+
+        .filter-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .filter-dot.all { background: var(--text-tertiary); }
+        .filter-dot.pending { background: var(--warning); }
+        .filter-dot.paid { background: var(--success); }
+        .filter-dot.rejected { background: var(--error); }
+
+        .filter-option span {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        /* History List */
         .history-list {
             display: flex;
             flex-direction: column;
@@ -596,7 +763,7 @@
         .history-item {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
+            border-radius: var(--radius-lg);
             padding: 16px;
             transition: all 0.2s ease;
         }
@@ -609,36 +776,37 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
 
         .history-method {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .method-icon {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             background: var(--bg-secondary);
             border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
             justify-content: center;
+            border: 1px solid var(--border-color);
         }
 
         .method-icon svg {
-            width: 20px;
-            height: 20px;
-            fill: var(--accent-primary);
+            width: 22px;
+            height: 22px;
+            fill: var(--accent-1);
         }
 
         .method-info h4 {
             font-size: 14px;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 2px;
+            margin-bottom: 4px;
         }
 
         .method-info span {
@@ -651,17 +819,17 @@
         }
 
         .history-amount h4 {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
 
         .status-badge {
             display: inline-flex;
             align-items: center;
-            gap: 4px;
-            padding: 4px 10px;
+            gap: 5px;
+            padding: 5px 10px;
             border-radius: 20px;
             font-size: 10px;
             font-weight: 700;
@@ -693,14 +861,14 @@
         .history-details {
             background: var(--bg-secondary);
             border-radius: var(--radius-sm);
-            padding: 12px;
+            padding: 12px 14px;
         }
 
         .detail-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 6px 0;
+            padding: 8px 0;
         }
 
         .detail-row:not(:last-child) {
@@ -715,22 +883,27 @@
         .detail-value {
             font-size: 12px;
             font-weight: 600;
-            color: var(--text-secondary);
+            color: var(--text-primary);
+            max-width: 180px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .reject-reason {
             display: flex;
             align-items: flex-start;
-            gap: 8px;
+            gap: 10px;
             margin-top: 12px;
-            padding: 12px;
+            padding: 12px 14px;
             background: var(--error-bg);
             border-radius: var(--radius-sm);
+            border: 1px solid rgba(239, 68, 68, 0.2);
         }
 
         .reject-reason svg {
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             fill: var(--error);
             flex-shrink: 0;
             margin-top: 1px;
@@ -742,33 +915,35 @@
             line-height: 1.5;
         }
 
+        /* Empty State */
         .empty-state {
             text-align: center;
-            padding: 40px 20px;
+            padding: 48px 24px;
         }
 
         .empty-icon {
-            width: 64px;
-            height: 64px;
+            width: 72px;
+            height: 72px;
             background: var(--bg-secondary);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 16px;
+            margin: 0 auto 20px;
+            border: 1px solid var(--border-color);
         }
 
         .empty-icon svg {
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             fill: var(--text-tertiary);
         }
 
         .empty-state h4 {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
 
         .empty-state p {
@@ -776,36 +951,87 @@
             color: var(--text-tertiary);
         }
 
-        /* Loading skeleton */
-        .skeleton {
-            background: linear-gradient(90deg, var(--bg-secondary) 25%, var(--bg-card) 50%, var(--bg-secondary) 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-            border-radius: var(--radius-sm);
+        /* ========== Submit Button ========== */
+        .submit-section {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 16px;
+            background: linear-gradient(to top, var(--bg-primary) 60%, transparent);
+            z-index: 100;
         }
 
-        @keyframes shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
+        .submit-btn-wrap {
+            max-width: 480px;
+            margin: 0 auto;
         }
 
-        .skeleton-text {
-            height: 14px;
-            margin-bottom: 8px;
+        .submit-btn {
+            width: 100%;
+            padding: 18px 24px;
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: var(--radius-md);
+            color: #0f0f14;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 32px rgba(0, 212, 170, 0.3);
         }
 
-        .skeleton-text:last-child {
-            width: 60%;
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .submit-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .submit-btn .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2.5px solid rgba(15, 15, 20, 0.2);
+            border-top-color: #0f0f14;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         /* Responsive */
         @media (max-width: 380px) {
             .balance-amount {
-                font-size: 36px;
+                font-size: 28px;
             }
             
-            .quick-amounts {
-                grid-template-columns: repeat(2, 1fr);
+            .stats-row {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+            
+            .stat-item {
+                padding: 12px 8px;
+            }
+            
+            .stat-value {
+                font-size: 14px;
             }
         }
     </style>
@@ -830,42 +1056,81 @@
             </div>
         </header>
 
-        <!-- Balance Section -->
-        <section class="balance-section">
+        <main class="main-content">
+            <!-- Balance Card -->
             <div class="balance-card">
-                <div class="balance-header">
-                    <div class="balance-icon">
-                        <svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+                <div class="balance-top">
+                    <div class="balance-info">
+                        <div class="balance-icon-wrap">
+                            <svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+                        </div>
+                        <div class="balance-text">
+                            <h3>Available Balance</h3>
+                            <div class="balance-amount"><span>$</span><span id="user-balance">0.00</span></div>
+                        </div>
                     </div>
-                    <span class="balance-label">Available Balance</span>
+                    <div class="balance-badge">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                        <span>Active</span>
+                    </div>
                 </div>
-                <div class="balance-amount"><span>$</span><span id="user-balance">0.00</span></div>
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <div class="stat-icon green">
+                            <svg viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
+                        </div>
+                        <div class="stat-value" id="total-withdrawn">$0</div>
+                        <div class="stat-label">Withdrawn</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon yellow">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                        </div>
+                        <div class="stat-value" id="pending-count">0</div>
+                        <div class="stat-label">Pending</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon purple">
+                            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        </div>
+                        <div class="stat-value" id="completed-count">0</div>
+                        <div class="stat-label">Completed</div>
+                    </div>
+                </div>
             </div>
-        </section>
 
-        <!-- Form Section -->
-        <section class="form-section">
             <!-- Success Message -->
             <div class="success-message" id="success-message">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
                 <div class="success-content">
-                    <h4>Request Submitted!</h4>
-                    <p id="success-text">Your withdrawal is being processed.</p>
+                    <div class="success-icon">
+                        <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                    </div>
+                    <div class="success-text">
+                        <h4>Withdrawal Submitted!</h4>
+                        <p>Your request is being processed. You'll receive a notification once completed.</p>
+                        <span class="withdraw-id" id="success-withdraw-id">WID000000</span>
+                    </div>
                 </div>
             </div>
 
+            <!-- Withdrawal Form -->
             <form id="withdrawForm">
-                <!-- Method Selection -->
+                <!-- Payment Method -->
                 <div class="section-card">
                     <div class="section-header">
                         <div class="section-icon">
                             <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
                         </div>
-                        <h3 class="section-title">Payment Method</h3>
+                        <div class="section-title-wrap">
+                            <h3>Payment Method</h3>
+                            <p>Select your preferred payout option</p>
+                        </div>
                     </div>
-                    
+
                     <div class="form-group">
-                        <label class="form-label">Select Method</label>
+                        <div class="form-label">
+                            <span>Select Method</span>
+                        </div>
                         <div class="input-wrapper">
                             <select class="form-select" id="method" required>
                                 <option value="" disabled selected>Choose payment method...</option>
@@ -883,21 +1148,25 @@
                     <div id="dynamic-fields"></div>
                 </div>
 
-                <!-- Amount Section -->
+                <!-- Amount -->
                 <div class="section-card">
                     <div class="section-header">
                         <div class="section-icon">
                             <svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
                         </div>
-                        <h3 class="section-title">Withdrawal Amount</h3>
+                        <div class="section-title-wrap">
+                            <h3>Withdrawal Amount</h3>
+                            <p>Enter the amount you want to withdraw</p>
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Enter Amount</label>
-                        <div class="input-icon-wrapper">
-                            <div class="input-icon">
-                                <svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
-                            </div>
+                        <div class="form-label">
+                            <span>Amount</span>
+                            <small id="min-amount-label">Min: $0.00</small>
+                        </div>
+                        <div class="amount-input-wrap">
+                            <span class="currency-symbol">$</span>
                             <input type="number" class="form-input" id="amount" step="0.01" min="0.01" placeholder="0.00" required>
                         </div>
                         <div class="error-message" id="amount-error">
@@ -909,55 +1178,69 @@
                             <button type="button" class="quick-btn" data-amount="5">$5</button>
                             <button type="button" class="quick-btn" data-amount="10">$10</button>
                             <button type="button" class="quick-btn" data-amount="25">$25</button>
-                            <button type="button" class="quick-btn" data-amount="all">All</button>
+                            <button type="button" class="quick-btn" data-amount="50">$50</button>
+                            <button type="button" class="quick-btn" data-amount="all">MAX</button>
                         </div>
                     </div>
                 </div>
             </form>
-        </section>
 
-        <!-- History Section -->
-        <section class="history-section">
-            <div class="section-header" style="margin-bottom: 16px;">
-                <div class="section-icon">
-                    <svg viewBox="0 0 24 24"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
-                </div>
-                <h3 class="section-title">Recent Withdrawals</h3>
-            </div>
-
-            <div class="history-tabs">
-                <button class="history-tab active" data-filter="all">
-                    <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
-                    All
-                </button>
-                <button class="history-tab" data-filter="pending">
-                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-                    Pending
-                </button>
-                <button class="history-tab" data-filter="paid">
-                    <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                    Paid
-                </button>
-            </div>
-
-            <div class="history-list" id="history-container">
-                <div class="empty-state">
-                    <div class="empty-icon">
-                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            <!-- History Section -->
+            <div class="history-section">
+                <div class="history-header">
+                    <div class="history-title">
+                        <div class="history-title-icon">
+                            <svg viewBox="0 0 24 24"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+                        </div>
+                        <h3>History</h3>
                     </div>
-                    <h4>No withdrawals yet</h4>
-                    <p>Your withdrawal history will appear here</p>
+                    <div class="filter-dropdown">
+                        <button type="button" class="filter-btn" id="filter-btn">
+                            <span id="filter-label">All</span>
+                            <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
+                        </button>
+                        <div class="filter-menu" id="filter-menu">
+                            <div class="filter-option active" data-filter="all">
+                                <div class="filter-dot all"></div>
+                                <span>All</span>
+                            </div>
+                            <div class="filter-option" data-filter="pending">
+                                <div class="filter-dot pending"></div>
+                                <span>Pending</span>
+                            </div>
+                            <div class="filter-option" data-filter="paid">
+                                <div class="filter-dot paid"></div>
+                                <span>Paid</span>
+                            </div>
+                            <div class="filter-option" data-filter="rejected">
+                                <div class="filter-dot rejected"></div>
+                                <span>Rejected</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="history-list" id="history-container">
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                        </div>
+                        <h4>No withdrawals yet</h4>
+                        <p>Your withdrawal history will appear here</p>
+                    </div>
                 </div>
             </div>
-        </section>
+        </main>
     </div>
 
     <!-- Submit Button -->
     <div class="submit-section">
-        <button type="submit" class="submit-btn" id="submit-btn" form="withdrawForm">
-            <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-            <span>Submit Withdrawal</span>
-        </button>
+        <div class="submit-btn-wrap">
+            <button type="submit" class="submit-btn" id="submit-btn" form="withdrawForm">
+                <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                <span>Submit Withdrawal</span>
+            </button>
+        </div>
     </div>
 
     <script>
@@ -966,7 +1249,7 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Get Telegram ID from URL
+        // Get Telegram ID
         const urlParams = new URLSearchParams(window.location.search);
         const telegramId = urlParams.get('id');
 
@@ -976,7 +1259,7 @@
         let withdrawHistory = [];
         let currentFilter = 'all';
 
-        // Telegram Bot Config
+        // Telegram Bot
         const BOT_TOKEN = "8968747488:AAFo57k9oohFGLWlqy0NhQmHS5EoSZEtK48";
         let adminChatId = "7955518877";
 
@@ -989,6 +1272,10 @@
         const submitBtn = document.getElementById('submit-btn');
         const historyContainer = document.getElementById('history-container');
         const successMessage = document.getElementById('success-message');
+        const filterBtn = document.getElementById('filter-btn');
+        const filterMenu = document.getElementById('filter-menu');
+        const filterLabel = document.getElementById('filter-label');
+        const minAmountLabel = document.getElementById('min-amount-label');
 
         // Initialize
         if (telegramId) {
@@ -996,7 +1283,7 @@
             initializeApp();
         } else {
             userUidEl.textContent = 'Not Found';
-            showError('amount', 'Telegram ID not found in URL');
+            showError('amount', 'Telegram ID not found');
         }
 
         function initializeApp() {
@@ -1006,7 +1293,7 @@
                 userBalanceEl.textContent = currentBalance.toFixed(2);
             });
 
-            // Load withdrawal methods
+            // Load methods
             database.ref('admin_settings/withdraw_methods').on('value', (snapshot) => {
                 const methods = snapshot.val();
                 methodSelect.innerHTML = '<option value="" disabled selected>Choose payment method...</option>';
@@ -1018,8 +1305,8 @@
                         if (m.status === true || m.status === "Active") {
                             const opt = document.createElement('option');
                             opt.value = key;
-                            const minText = m.min_withdraw ? ` (Min: $${parseFloat(m.min_withdraw).toFixed(2)})` : '';
-                            opt.textContent = (m.name || key) + minText;
+                            opt.textContent = m.name || key;
+                            opt.dataset.min = m.min_withdraw || 0;
                             methodSelect.appendChild(opt);
                         }
                     });
@@ -1031,61 +1318,87 @@
                 if (snap.val()) adminChatId = snap.val();
             });
 
-            // Load withdrawal history
+            // Load history
             database.ref('users/' + telegramId + '/withdraw_history').on('value', (snapshot) => {
                 const data = snapshot.val();
                 withdrawHistory = data ? Object.entries(data).map(([key, val]) => ({ id: key, ...val })).reverse() : [];
+                updateStats();
                 renderHistory();
             });
         }
 
-        // Method change handler
+        // Update stats
+        function updateStats() {
+            let totalWithdrawn = 0;
+            let pendingCount = 0;
+            let completedCount = 0;
+
+            withdrawHistory.forEach(item => {
+                if (item.status === 'Paid') {
+                    totalWithdrawn += parseFloat(item.amount);
+                    completedCount++;
+                } else if (item.status === 'Pending') {
+                    pendingCount++;
+                }
+            });
+
+            document.getElementById('total-withdrawn').textContent = '$' + totalWithdrawn.toFixed(0);
+            document.getElementById('pending-count').textContent = pendingCount;
+            document.getElementById('completed-count').textContent = completedCount;
+        }
+
+        // Method change
         methodSelect.addEventListener('change', function() {
             hideError('method');
             dynamicFields.innerHTML = '';
             
             const config = methodConfigs[this.value];
-            if (config && config.fields && Array.isArray(config.fields)) {
-                config.fields.forEach((field) => {
-                    const group = document.createElement('div');
-                    group.className = 'form-group';
-                    
-                    const label = document.createElement('label');
-                    label.className = 'form-label';
-                    label.textContent = field.label;
-                    
-                    const input = document.createElement('input');
-                    input.type = 'text';
-                    input.className = 'form-input custom-field';
-                    input.dataset.label = field.label;
-                    input.placeholder = `Enter ${field.label}...`;
-                    input.required = true;
-                    
-                    const errorDiv = document.createElement('div');
-                    errorDiv.className = 'error-message';
-                    errorDiv.id = `field-error-${field.label.replace(/\s+/g, '-').toLowerCase()}`;
-                    errorDiv.innerHTML = `
-                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-                        <span>Please enter ${field.label}</span>
-                    `;
-                    
-                    group.appendChild(label);
-                    group.appendChild(input);
-                    group.appendChild(errorDiv);
-                    dynamicFields.appendChild(group);
+            if (config) {
+                const minAmount = config.min_withdraw ? parseFloat(config.min_withdraw) : 0;
+                minAmountLabel.textContent = `Min: $${minAmount.toFixed(2)}`;
 
-                    input.addEventListener('input', () => {
-                        input.classList.remove('input-error');
-                        errorDiv.classList.remove('show');
+                if (config.fields && Array.isArray(config.fields)) {
+                    config.fields.forEach((field) => {
+                        const group = document.createElement('div');
+                        group.className = 'form-group';
+                        
+                        const label = document.createElement('div');
+                        label.className = 'form-label';
+                        label.innerHTML = `<span>${field.label}</span>`;
+                        
+                        const input = document.createElement('input');
+                        input.type = 'text';
+                        input.className = 'form-input custom-field';
+                        input.dataset.label = field.label;
+                        input.placeholder = `Enter ${field.label}...`;
+                        input.required = true;
+                        
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'error-message';
+                        errorDiv.id = `field-error-${field.label.replace(/\s+/g, '-').toLowerCase()}`;
+                        errorDiv.innerHTML = `
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                            <span>Please enter ${field.label}</span>
+                        `;
+                        
+                        group.appendChild(label);
+                        group.appendChild(input);
+                        group.appendChild(errorDiv);
+                        dynamicFields.appendChild(group);
+
+                        input.addEventListener('input', () => {
+                            input.classList.remove('input-error');
+                            errorDiv.classList.remove('show');
+                        });
                     });
-                });
+                }
             }
         });
 
-        // Amount input handler
+        // Amount input
         amountInput.addEventListener('input', () => hideError('amount'));
 
-        // Quick amount buttons
+        // Quick amounts
         document.querySelectorAll('.quick-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('active'));
@@ -1101,17 +1414,28 @@
             });
         });
 
-        // History filter tabs
-        document.querySelectorAll('.history-tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                document.querySelectorAll('.history-tab').forEach(t => t.classList.remove('active'));
+        // Filter dropdown
+        filterBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            filterMenu.classList.toggle('show');
+        });
+
+        document.addEventListener('click', () => {
+            filterMenu.classList.remove('show');
+        });
+
+        document.querySelectorAll('.filter-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.filter-option').forEach(o => o.classList.remove('active'));
                 this.classList.add('active');
                 currentFilter = this.dataset.filter;
+                filterLabel.textContent = this.querySelector('span').textContent;
+                filterMenu.classList.remove('show');
                 renderHistory();
             });
         });
 
-        // Form submission
+        // Form submit
         document.getElementById('withdrawForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -1120,7 +1444,6 @@
                 return;
             }
 
-            // Validate method
             const methodKey = methodSelect.value;
             if (!methodKey) {
                 showError('method', 'Please select a payment method');
@@ -1149,7 +1472,6 @@
 
             if (!fieldsValid) return;
 
-            // Validate amount
             const amount = parseFloat(amountInput.value);
             
             if (isNaN(amount) || amount <= 0) {
@@ -1167,7 +1489,6 @@
                 return;
             }
 
-            // Submit withdrawal
             submitWithdrawal(methodKey, methodName, accountDetails, amount);
         });
 
@@ -1192,35 +1513,29 @@
             };
 
             try {
-                // Update balance
                 await database.ref('users/' + telegramId + '/balance').set(currentBalance - amount);
-                
-                // Save withdrawal request
                 await database.ref('users/' + telegramId + '/withdraw_history/' + withdrawId).set(payload);
                 await database.ref('admin_withdraw_requests/' + withdrawId).set(payload);
 
-                // Send Telegram notifications
                 const primaryWallet = Object.values(accountDetails)[0] || '';
                 
-                const userMsg = `<b>Withdrawal Request Received</b>\n\nWithdraw ID: ${withdrawId}\nMethod: ${methodName}\nAmount: $${amount.toFixed(2)}\nStatus: Pending\n\nOur team will review and process your payment shortly.`;
+                const userMsg = `<b>Withdrawal Request Received</b>\n\nWithdraw ID: ${withdrawId}\nMethod: ${methodName}\nAmount: $${amount.toFixed(2)}\nStatus: Pending\n\nYou'll be notified once processed.`;
                 sendTelegramMsg(telegramId, userMsg);
 
-                const adminMsg = `<b>New Withdrawal Request</b>\n\nWithdraw ID: ${withdrawId}\nMethod: ${methodName}\nAmount: $${amount.toFixed(2)}\nUser UID: ${telegramId}\nAccount: ${primaryWallet}`;
+                const adminMsg = `<b>New Withdrawal Request</b>\n\nWithdraw ID: ${withdrawId}\nMethod: ${methodName}\nAmount: $${amount.toFixed(2)}\nUser: ${telegramId}\nAccount: ${primaryWallet}`;
                 sendTelegramMsg(adminChatId, adminMsg);
 
-                // Show success
-                document.getElementById('success-text').textContent = `Withdrawal ID: ${withdrawId}`;
+                document.getElementById('success-withdraw-id').textContent = withdrawId;
                 successMessage.classList.add('show');
                 
-                // Reset form
                 document.getElementById('withdrawForm').reset();
                 dynamicFields.innerHTML = '';
+                minAmountLabel.textContent = 'Min: $0.00';
                 document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('active'));
 
-                // Hide success after 5 seconds
                 setTimeout(() => {
                     successMessage.classList.remove('show');
-                }, 5000);
+                }, 6000);
 
             } catch (error) {
                 console.error(error);
@@ -1334,25 +1649,17 @@
                 document.getElementById('amount-error-text').textContent = message;
             }
             
-            if (errorEl) {
-                errorEl.classList.add('show');
-            }
-            if (inputEl) {
-                inputEl.classList.add('input-error');
-            }
+            if (errorEl) errorEl.classList.add('show');
+            if (inputEl) inputEl.classList.add('input-error');
         }
 
         function hideError(field) {
             const errorEl = document.getElementById(`${field}-error`);
             const inputEl = document.getElementById(field);
             
-            if (errorEl) {
-                errorEl.classList.remove('show');
-            }
-            if (inputEl) {
-                inputEl.classList.remove('input-error');
-            }
+            if (errorEl) errorEl.classList.remove('show');
+            if (inputEl) inputEl.classList.remove('input-error');
         }
     </script>
 </body>
-    </html>
+</html>
