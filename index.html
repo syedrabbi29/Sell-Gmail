@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Task Verification</title>
+    <title>GMAIL SELL</title>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -770,7 +770,7 @@
                         <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
                     </div>
                     <div class="brand-text">
-                        <h1>Task Portal</h1>
+                        <h1>GMAIL SELL</h1>
                         <span>Submit & Earn</span>
                     </div>
                 </div>
@@ -794,7 +794,7 @@
                         <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
                     </div>
                     <div class="success-alert-text">
-                        <h4>Task Submitted Successfully!</h4>
+                        <h4>Gmail Submitted Successfully!</h4>
                         <p>Your gmail is now pending review. You'll be notified once it's processed.</p>
                         <span class="success-id" id="success-id">SUB000000</span>
                     </div>
@@ -826,7 +826,7 @@
             <!-- Submit Form Card -->
             <div class="submit-card">
                 <div class="submit-card-header">
-                    <h2>Submit Your Task</h2>
+                    <h2>Submit Your Gmail</h2>
                     <p>Fill in the details below to submit your gmail proof</p>
                 </div>
                 <div class="submit-card-body">
@@ -1071,7 +1071,7 @@
 
         // Telegram Notifications
         const firstValue = Object.values(gmailData)[0] || '';
-        const userMsg = `Task Submitted!\n\nID: ${submissionId}\nStatus: Pending\n\nPlease wait for review.`;
+        const userMsg = `✅ Your Gmail Submitted!\n\nID: ${submissionId}\nStatus: Pending\n\nThis gmail is still under review. Please wait for the moderation team to verify your submission.`;
         sendTelegramMsg(telegramId, userMsg);
 
         const adminMsg = `New Task!\n\nID: ${submissionId}\nUser: ${telegramId}\nDetails: ${firstValue}`;
@@ -1180,4 +1180,4 @@
         }
     </script>
 </body>
-                            </html>
+</html>
