@@ -1027,58 +1027,76 @@
         });
 
         async function submitTask(gmailData) {
-            const originalContent = submitBtn.innerHTML;
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<div class="spinner"></div><span>Submitting...</span>';
+    const originalContent = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<div class="spinner"></div><span>Submitting...</span>';
 
-            const timestamp = new Date().toLocaleString();
-            const submissionId = 'SUB' + Math.floor(100000 + Math.random() * 900000);
+    const timestamp = new Date().toLocaleString();
+    const submissionId = 'SUB' + Math.floor(100000 + Math.random() * 900000);
 
-            const payload = {
-                id: submissionId,
-                submitted_by: telegramId,
-                account_details: gmailData,
-                status: "Pending",
-                reject_reason: "",
-                time: timestamp
-            };
+    const payload = {
+        id: submissionId,
+        submitted_by: telegramId,
+        account_details: gmailData,
+        status: "Pending",
+        reject_reason: "",
+        time: timestamp
+    };
 
-            try {
-                await Promise.all([
-                    database.ref('users/' + telegramId + '/submitted_gmails/' + submissionId).set(payload),
-                    database.ref('admin_pending_gmails/' + submissionId).set(payload)
-                ]);
+    try {
+        // ১. সাবমিশন ডেটা সেভ করা
+        await Promise.all([
+            database.ref('users/' + telegramId + '/submitted_gmails/' + submissionId).set(payload),
+            database.ref('admin_pending_gmails/' + submissionId).set(payload)
+        ]);
 
-                // Send notifications
-                const firstValue = Object.values(gmailData)[0] || '';
-                
-                const userMsg = `Task Submitted!\n\nID: ${submissionId}\nStatus: Pending\n\nPlease wait for review.`;
-                sendTelegramMsg(telegramId, userMsg);
-
-                const adminMsg = `New Task!\n\nID: ${submissionId}\nUser: ${telegramId}\nDetails: ${firstValue}`;
-                sendTelegramMsg(adminChatId, adminMsg);
-
-                // Show success
-                document.getElementById('success-id').textContent = submissionId;
-                successAlert.classList.add('show');
-
-                // Reset form
-                document.getElementById('gmailForm').reset();
-
-                showToast('Task submitted successfully!', 'success');
-
-                setTimeout(() => {
-                    successAlert.classList.remove('show');
-                }, 5000);
-
-            } catch (error) {
-                console.error(error);
-                showToast('Submission failed. Try again.', 'error');
+        // ২. ইউজার stats নোডের pending এবং total_submitted কাউন্টার ১ বাড়িয়ে দেওয়া (Firebase Transaction)
+        await database.ref('users/' + telegramId + '/stats').transaction((currentStats) => {
+            if (currentStats === null) {
+                return {
+                    paid: 0,
+                    pending: 1,
+                    rejected: 0,
+                    total_submitted: 1
+                };
             }
+            
+            return {
+                paid: currentStats.paid || 0,
+                pending: (currentStats.pending || 0) + 1,
+                rejected: currentStats.rejected || 0,
+                total_submitted: (currentStats.total_submitted || 0) + 1
+            };
+        });
 
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalContent;
-        }
+        // Telegram Notifications
+        const firstValue = Object.values(gmailData)[0] || '';
+        const userMsg = `Task Submitted!\n\nID: ${submissionId}\nStatus: Pending\n\nPlease wait for review.`;
+        sendTelegramMsg(telegramId, userMsg);
+
+        const adminMsg = `New Task!\n\nID: ${submissionId}\nUser: ${telegramId}\nDetails: ${firstValue}`;
+        sendTelegramMsg(adminChatId, adminMsg);
+
+        // Show success alert
+        document.getElementById('success-id').textContent = submissionId;
+        successAlert.classList.add('show');
+
+        // Reset form
+        document.getElementById('gmailForm').reset();
+        showToast('Task submitted successfully!', 'success');
+
+        setTimeout(() => {
+            successAlert.classList.remove('show');
+        }, 5000);
+
+    } catch (error) {
+        console.error(error);
+        showToast('Submission failed. Try again.', 'error');
+    }
+
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = originalContent;
+}
 
         function sendTelegramMsg(chatId, text) {
             if (!BOT_TOKEN || !chatId) return;
@@ -1162,4 +1180,4 @@
         }
     </script>
 </body>
-</html>
+                            </html>
