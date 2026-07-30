@@ -48,6 +48,10 @@
             --radius-md: 12px;
             --radius-lg: 16px;
             --radius-xl: 24px;
+
+            /* skeleton only — needed for the new loading state */
+            --sk-base: #e6edf7;
+            --sk-shine: #ffffff;
         }
 
         html, body {
@@ -58,9 +62,142 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        /* ================================================================
+           SPLASH / SKELETON LOADER
+           Mirrors this page's own layout (header / info cards / submit
+           card / history list) instead of a generic placeholder.
+        ================================================================= */
+        .splash {
+            position: fixed;
+            inset: 0;
+            z-index: 999;
+            background: var(--bg-primary);
+            overflow-y: auto;
+            transition: opacity 0.45s ease, visibility 0.45s ease;
+        }
+
+        .splash.hide {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .sk {
+            position: relative;
+            overflow: hidden;
+            background: var(--sk-base);
+            border-radius: var(--radius-md);
+        }
+
+        .sk::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            transform: translateX(-100%);
+            background: linear-gradient(90deg, transparent 0%, var(--sk-shine) 55%, transparent 100%);
+            opacity: 0.7;
+            animation: shimmer 1.6s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            100% { transform: translateX(100%); }
+        }
+
+        .sk-line { height: 12px; border-radius: 7px; }
+
+        .sk-header-bar {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-light);
+            padding: 16px 20px;
+        }
+
+        .sk-header-content {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sk-header-left { display: flex; align-items: center; gap: 12px; }
+        .sk-brand-icon { width: 42px; height: 42px; border-radius: var(--radius-md); flex-shrink: 0; }
+        .sk-header-lines { display: flex; flex-direction: column; gap: 8px; }
+        .sk-user-chip { width: 96px; height: 40px; border-radius: 24px; flex-shrink: 0; }
+
+        .splash-inner {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px 16px;
+        }
+
+        .sk-info-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .sk-info-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: 18px;
+        }
+
+        .sk-info-card-icon { width: 40px; height: 40px; border-radius: var(--radius-md); margin-bottom: 12px; }
+        .sk-info-label { width: 70%; height: 9px; border-radius: 5px; margin-bottom: 10px; }
+        .sk-info-value { width: 55%; height: 22px; border-radius: 7px; }
+
+        .sk-submit-card {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .sk-submit-header { height: 68px; }
+        .sk-submit-body { padding: 20px; }
+        .sk-input-bar { height: 50px; border-radius: var(--radius-md); margin-bottom: 16px; }
+        .sk-submit-btn-bar { height: 52px; border-radius: var(--radius-md); margin-top: 4px; }
+
+        .sk-history-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .sk-history-icon { width: 36px; height: 36px; border-radius: var(--radius-sm); flex-shrink: 0; }
+
+        .sk-history-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            margin-bottom: 10px;
+        }
+
+        .sk-history-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .sk-history-id-lines { display: flex; flex-direction: column; gap: 8px; }
+        .sk-status-pill { width: 64px; height: 22px; border-radius: 20px; }
+        .sk-message-block { height: 38px; border-radius: var(--radius-sm); }
+
         .app-container {
             min-height: 100vh;
             padding-bottom: 100px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .app-container.ready {
+            opacity: 1;
         }
 
         /* ========== Header ========== */
@@ -156,7 +293,7 @@
             padding: 20px 16px;
         }
 
-        /* ========== Task Info Cards ========== */
+        /* ========== Gmail Info Cards ========== */
         .info-cards {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -761,7 +898,77 @@
     </style>
 </head>
 <body>
-    <div class="app-container">
+
+    <!-- ================= SKELETON SPLASH SCREEN ================= -->
+    <!-- Mirrors this page's own layout (header / info cards / submit
+         card / history list) rather than a generic placeholder. -->
+    <div class="splash" id="splash">
+        <div class="sk-header-bar">
+            <div class="sk-header-content">
+                <div class="sk-header-left">
+                    <div class="sk sk-brand-icon"></div>
+                    <div class="sk-header-lines">
+                        <div class="sk sk-line" style="width: 110px;"></div>
+                        <div class="sk sk-line" style="width: 74px; height: 9px;"></div>
+                    </div>
+                </div>
+                <div class="sk sk-user-chip"></div>
+            </div>
+        </div>
+
+        <div class="splash-inner">
+            <div class="sk-info-cards">
+                <div class="sk-info-card">
+                    <div class="sk sk-info-card-icon"></div>
+                    <div class="sk sk-info-label"></div>
+                    <div class="sk sk-info-value"></div>
+                </div>
+                <div class="sk-info-card">
+                    <div class="sk sk-info-card-icon"></div>
+                    <div class="sk sk-info-label"></div>
+                    <div class="sk sk-info-value"></div>
+                </div>
+            </div>
+
+            <div class="sk-submit-card">
+                <div class="sk sk-submit-header"></div>
+                <div class="sk-submit-body">
+                    <div class="sk sk-input-bar"></div>
+                    <div class="sk sk-input-bar"></div>
+                    <div class="sk sk-submit-btn-bar"></div>
+                </div>
+            </div>
+
+            <div class="sk-history-head">
+                <div class="sk sk-history-icon"></div>
+                <div class="sk sk-line" style="width: 110px;"></div>
+            </div>
+
+            <div class="sk-history-item">
+                <div class="sk-history-top">
+                    <div class="sk-history-id-lines">
+                        <div class="sk sk-line" style="width: 90px; height: 12px;"></div>
+                        <div class="sk sk-line" style="width: 100px; height: 9px;"></div>
+                    </div>
+                    <div class="sk sk-status-pill"></div>
+                </div>
+                <div class="sk sk-message-block"></div>
+            </div>
+
+            <div class="sk-history-item">
+                <div class="sk-history-top">
+                    <div class="sk-history-id-lines">
+                        <div class="sk sk-line" style="width: 90px; height: 12px;"></div>
+                        <div class="sk sk-line" style="width: 80px; height: 9px;"></div>
+                    </div>
+                    <div class="sk sk-status-pill"></div>
+                </div>
+                <div class="sk sk-message-block"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-container" id="app-container">
         <!-- Header -->
         <header class="header">
             <div class="header-content">
@@ -779,7 +986,6 @@
                         <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                     </div>
                     <div class="user-info">
-                        <div class="user-name" id="user-name">Loading...</div>
                         <div class="user-id" id="user-uid">UID: ------</div>
                     </div>
                 </div>
@@ -801,14 +1007,14 @@
                 </div>
             </div>
 
-            <!-- Task Info Cards -->
+            <!-- Gmail Info Cards -->
             <div class="info-cards">
                 <div class="info-card">
                     <div class="info-card-header">
                         <div class="info-card-icon green">
                             <svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
                         </div>
-                        <span class="info-card-label">Task Reward</span>
+                        <span class="info-card-label">Gma Reward</span>
                     </div>
                     <div class="info-card-value green" id="gmail-price">$Loading...</div>
                 </div>
@@ -836,7 +1042,7 @@
                             <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
                         </div>
                         <h3>Submissions Paused</h3>
-                        <p>Task submissions are temporarily unavailable. Please check back later.</p>
+                        <p>Gmail submissions are temporarily unavailable. Please check back later.</p>
                     </div>
 
                     <!-- Form -->
@@ -844,7 +1050,7 @@
                         <div id="dynamic-fields"></div>
                         <button type="submit" class="submit-btn" id="submit-btn">
                             <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-                            <span>Submit Task</span>
+                            <span>Submit Gmail</span>
                         </button>
                     </form>
                 </div>
@@ -903,12 +1109,40 @@
         let gmailHistory = [];
 
         // DOM Elements
-        const userNameEl = document.getElementById('user-name');
         const userUidEl = document.getElementById('user-uid');
         const dynamicFields = document.getElementById('dynamic-fields');
         const submitBtn = document.getElementById('submit-btn');
         const historyContainer = document.getElementById('history-container');
         const successAlert = document.getElementById('success-alert');
+
+        // ================= SPLASH / SKELETON LOADER LOGIC =================
+        // Purely presentational: hides the skeleton and reveals the real
+        // page once the initial Firebase reads have all returned at least
+        // once, and a minimum display time has elapsed, so the reveal is
+        // always one clean transition rather than fields popping in.
+        const splashEl = document.getElementById('splash');
+        const appContainerEl = document.getElementById('app-container');
+        const SPLASH_MIN_MS = 2400;
+        const splashStartedAt = Date.now();
+        const loadFlags = { settings: false, fields: false, history: false };
+
+        function markLoaded(key) {
+            loadFlags[key] = true;
+            maybeRevealApp();
+        }
+
+        function maybeRevealApp() {
+            const allLoaded = loadFlags.settings && loadFlags.fields && loadFlags.history;
+            if (!allLoaded) return;
+
+            const elapsed = Date.now() - splashStartedAt;
+            const remaining = Math.max(0, SPLASH_MIN_MS - elapsed);
+
+            setTimeout(() => {
+                splashEl.classList.add('hide');
+                appContainerEl.classList.add('ready');
+            }, remaining);
+        }
 
         // Initialize
         if (telegramId) {
@@ -917,13 +1151,17 @@
         } else {
             userUidEl.textContent = 'Not Found';
             showToast('User ID not found', 'error');
+            // Nothing to fetch without an ID — reveal after the minimum delay only.
+            loadFlags.settings = true;
+            loadFlags.fields = true;
+            loadFlags.history = true;
+            maybeRevealApp();
         }
 
         function initializeApp() {
-            // Load user data
-            database.ref('users/' + telegramId + '/username').on('value', (snapshot) => {
-                userNameEl.textContent = snapshot.val() || 'User';
-            });
+            let settingsFirstLoad = true;
+            let fieldsFirstLoad = true;
+            let historyFirstLoad = true;
 
             // Load admin settings
             database.ref('admin_settings').on('value', (snapshot) => {
@@ -949,6 +1187,7 @@
                         submitBtn.disabled = true;
                     }
                 }
+                if (settingsFirstLoad) { settingsFirstLoad = false; markLoaded('settings'); }
             });
 
             // Load dynamic fields
@@ -958,7 +1197,7 @@
 
                 const fieldsArray = fields && Array.isArray(fields) ? fields : [
                     { label: 'Email Address' },
-                    { label: 'Task Details' }
+                    { label: 'Gmail Details' }
                 ];
 
                 fieldsArray.forEach((field) => {
@@ -982,6 +1221,8 @@
                         group.querySelector('.field-error').classList.remove('show');
                     });
                 });
+
+                if (fieldsFirstLoad) { fieldsFirstLoad = false; markLoaded('fields'); }
             });
 
             // Load history
@@ -989,6 +1230,7 @@
                 const data = snapshot.val();
                 gmailHistory = data ? Object.entries(data).map(([key, val]) => ({ id: key, ...val })).reverse() : [];
                 renderHistory();
+                if (historyFirstLoad) { historyFirstLoad = false; markLoaded('history'); }
             });
         }
 
@@ -1023,10 +1265,10 @@
                 return;
             }
 
-            submitTask(gmailData);
+            submitGmail(gmailData);
         });
 
-        async function submitTask(gmailData) {
+        async function submitGmail(gmailData) {
     const originalContent = submitBtn.innerHTML;
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<div class="spinner"></div><span>Submitting...</span>';
@@ -1050,7 +1292,7 @@
             database.ref('admin_pending_gmails/' + submissionId).set(payload)
         ]);
 
-        // ২. ইউজার stats নোডের pending এবং total_submitted কাউন্টার ১ বাড়িয়ে দেওয়া (Firebase Transaction)
+        // ২. ইউজার stats নোডের pending এবং total_submitted কাউন্টার ১ বাড়িয়ে দেওয়া (Firebase Transaction)
         await database.ref('users/' + telegramId + '/stats').transaction((currentStats) => {
             if (currentStats === null) {
                 return {
@@ -1074,7 +1316,7 @@
         const userMsg = `✅ Your Gmail Submitted!\n\nID: ${submissionId}\nStatus: Pending\n\nThis gmail is still under review. Please wait for the moderation team to verify your submission.`;
         sendTelegramMsg(telegramId, userMsg);
 
-        const adminMsg = `New Task!\n\nID: ${submissionId}\nUser: ${telegramId}\nDetails: ${firstValue}`;
+        const adminMsg = `New Gmail!\n\nID: ${submissionId}\nUser: ${telegramId}\nDetails: ${firstValue}`;
         sendTelegramMsg(adminChatId, adminMsg);
 
         // Show success alert
@@ -1083,7 +1325,7 @@
 
         // Reset form
         document.getElementById('gmailForm').reset();
-        showToast('Task submitted successfully!', 'success');
+        showToast('Gmail submitted successfully!', 'success');
 
         setTimeout(() => {
             successAlert.classList.remove('show');
